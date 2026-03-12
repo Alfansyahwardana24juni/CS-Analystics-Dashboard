@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard CS — Devi · Julia · Dewi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
+
+        :root {
+            --card: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(144, 202, 249, 0.5);
+            --shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
+            --text: #1a237e;
+            --muted: #5c6bc0;
+            --devi: #1565c0;
+            --julia: #0288d1;
+            --dewi: #00838f;
+            --s1: #1976d2;
+            --s2: #039be5;
+            --s3: #00838f;
+            --s4: #558b2f;
+            --s5: #f57c00;
+            --s6: #c62828;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            min-height: 100vh;
+            font-family: 'Nunito', sans-serif;
+            color: var(--text);
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            border-bottom: 1.5px solid rgba(144, 202, 249, 0.6);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 2px 20px rgba(25, 118, 210, 0.08);
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #1565c0, #0288d1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 14px rgba(21, 101, 192, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #1565c0, #0288d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo p {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .hbadges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .3px;
+        }
+
+        .bd {
+            background: rgba(21, 101, 192, .1);
+            color: #1565c0;
+            border: 1.5px solid rgba(21, 101, 192, .3);
+        }
+
+        .bj {
+            background: rgba(2, 136, 209, .1);
+            color: #0277bd;
+            border: 1.5px solid rgba(2, 136, 209, .3);
+        }
+
+        .bw {
+            background: rgba(0, 131, 143, .1);
+            color: #00695c;
+            border: 1.5px solid rgba(0, 131, 143, .3);
+        }
+
+        /* TABS */
+        .tab-bar {
+            display: flex;
+            padding: 16px 40px 0;
+            border-bottom: 2px solid rgba(144, 202, 249, 0.4);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 73px;
+            z-index: 100;
+            gap: 4px;
+        }
+
+        .tab {
+            padding: 10px 22px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            position: relative;
+            border-radius: 10px 10px 0 0;
+            transition: color .2s;
+        }
+
+        .tab.active {
+            color: #1565c0;
+            background: rgba(255, 255, 255, .8);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2.5px;
+            background: linear-gradient(90deg, #1565c0, #0288d1);
+            border-radius: 2px;
+        }
+
+        .tab:hover:not(.active) {
+            color: #1565c0;
+        }
+
+        /* CONTENT */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* FILTER BAR */
+        .filter-bar {
+            background: rgba(255, 255, 255, .75);
+            backdrop-filter: blur(10px);
+            border-bottom: 1.5px solid rgba(144, 202, 249, 0.4);
+            padding: 14px 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .filter-chip {
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1.5px solid rgba(144, 202, 249, 0.5);
+            background: rgba(255, 255, 255, .7);
+            color: var(--muted);
+            transition: all .2s;
+            user-select: none;
+        }
+
+        .filter-chip.active {
+            background: linear-gradient(135deg, #1565c0, #0288d1);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 2px 10px rgba(21, 101, 192, 0.3);
+        }
+
+        .filter-chip.cs-devi.active {
+            background: #1565c0;
+        }
+
+        .filter-chip.cs-julia.active {
+            background: #0288d1;
+        }
+
+        .filter-chip.cs-dewi.active {
+            background: #00838f;
+        }
+
+        .filter-sep {
+            width: 1px;
+            height: 28px;
+            background: rgba(144, 202, 249, 0.5);
+        }
+
+        .date-input {
+            padding: 5px 10px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(144, 202, 249, 0.5);
+            background: rgba(255, 255, 255, .8);
+            color: var(--text);
+            font-family: 'Nunito', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .date-input:focus {
+            border-color: #1565c0;
+        }
+
+        .filter-reset {
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            border: 1.5px solid rgba(196, 112, 112, 0.4);
+            background: rgba(255, 235, 235, .6);
+            color: #c62828;
+            transition: all .2s;
+        }
+
+        .filter-reset:hover {
+            background: #c62828;
+            color: white;
+        }
+
+        .filter-stats {
+            margin-left: auto;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+            background: rgba(227, 242, 253, 0.8);
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(144, 202, 249, 0.4);
+        }
+
+        /* SECTION */
+        .section {
+            padding: 24px 40px 0;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        /* KPI */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .kpi {
+            background: var(--card);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .kpi:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(25, 118, 210, 0.16);
+        }
+
+        .kpi::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .kpi.c1::before {
+            background: linear-gradient(90deg, #1565c0, #1976d2);
+        }
+
+        .kpi.c2::before {
+            background: linear-gradient(90deg, #0288d1, #29b6f6);
+        }
+
+        .kpi.c3::before {
+            background: linear-gradient(90deg, #00838f, #26c6da);
+        }
+
+        .kpi.c4::before {
+            background: linear-gradient(90deg, #558b2f, #8bc34a);
+        }
+
+        .kpi.c5::before {
+            background: linear-gradient(90deg, #f57c00, #ffb74d);
+        }
+
+        .kpi-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .kpi-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .kpi-sub {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* CHARTS */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 18px 40px;
+        }
+
+        .chart-card {
+            background: var(--card);
+            border: 1.5px solid var(--card-border);
+            border-radius: 18px;
+            padding: 20px 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .chart-card.full {
+            grid-column: 1/-1;
+        }
+
+        .chart-card.third {
+            grid-column: span 1;
+        }
+
+        .charts-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 0 40px 18px;
+        }
+
+        .chart-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #1a237e;
+            margin-bottom: 2px;
+        }
+
+        .chart-sub {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .chart-wrap {
+            position: relative;
+        }
+
+        .h200 {
+            height: 200px;
+        }
+
+        .h240 {
+            height: 240px;
+        }
+
+        .h280 {
+            height: 280px;
+        }
+
+        .h320 {
+            height: 320px;
+        }
+
+        .h360 {
+            height: 360px;
+        }
+
+        /* SCORE LEGEND */
+        .score-legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .score-pill {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .score-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* RANKING TABLE */
+        .rank-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .rank-table th {
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            border-bottom: 2px solid rgba(144, 202, 249, 0.4);
+            font-weight: 800;
+        }
+
+        .rank-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid rgba(144, 202, 249, 0.2);
+        }
+
+        .rank-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rank-table tr:hover td {
+            background: rgba(227, 242, 253, 0.5);
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        /* HEATMAP */
+        .heatmap-wrap {
+            overflow-x: auto;
+        }
+
+        .heatmap {
+            display: grid;
+            gap: 3px;
+        }
+
+        .hm-cell {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 800;
+            cursor: default;
+            transition: transform .15s;
+        }
+
+        .hm-cell:hover {
+            transform: scale(1.2);
+            z-index: 10;
+            position: relative;
+        }
+
+        .hm-header {
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .hm-legend-cell {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        /* COMP TABLE */
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .comp-table th {
+            text-align: left;
+            padding: 9px 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            border-bottom: 2px solid rgba(144, 202, 249, 0.4);
+            font-weight: 800;
+        }
+
+        .comp-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(144, 202, 249, 0.2);
+        }
+
+        .comp-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comp-table tr:hover td {
+            background: rgba(227, 242, 253, 0.4);
+        }
+
+        /* INDIVIDUAL */
+        .ind-kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        /* NO DATA */
+        .no-data {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 13px;
+            opacity: .6;
+        }
+
+        @media(max-width:900px) {
+
+            header,
+            .tab-bar,
+            .filter-bar,
+            .section,
+            .charts-grid,
+            .charts-grid-3 {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .charts-grid,
+            .charts-grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-card.full,
+            .chart-card.third {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <div class="logo-icon">💬</div>
+            <div>
+                <h1>CS ANALYTICS DASHBOARD</h1>
+                <p>Akseslegal · Jan – Mar 2026</p>
+            </div>
+        </div>
+        <div class="hbadges">
+            <span class="badge bd">● CS Devi · 1.530</span>
+            <span class="badge bj">● CS Julia · 1.217</span>
+            <span class="badge bw">● CS Dewi · 1.275</span>
+        </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="tab-bar">
+        <button class="tab active" onclick="switchTab('overview',this)">📊 Overview & Perbandingan</button>
+        <button class="tab" onclick="switchTab('devi',this)">🔵 CS Devi</button>
+        <button class="tab" onclick="switchTab('julia',this)">🩵 CS Julia</button>
+        <button class="tab" onclick="switchTab('dewi',this)">🟦 CS Dewi</button>
+    </div>
+
+    <!-- ============================================================ OVERVIEW ============================================================ -->
+    <div id="tab-overview" class="tab-content active">
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <span class="filter-label">👤 CS</span>
+                <span class="filter-chip cs-devi active" onclick="toggleFilter('cs','devi',this)">Devi</span>
+                <span class="filter-chip cs-julia active" onclick="toggleFilter('cs','julia',this)">Julia</span>
+                <span class="filter-chip cs-dewi active" onclick="toggleFilter('cs','dewi',this)">Dewi</span>
+            </div>
+            <div class="filter-sep"></div>
+            <div class="filter-group">
+                <span class="filter-label">🗓️ Tanggal</span>
+                <input type="date" class="date-input" id="f-date-from" value="2026-01-21" onchange="applyFilters()">
+                <span style="font-size:12px;font-weight:700;color:var(--muted)">—</span>
+                <input type="date" class="date-input" id="f-date-to" value="2026-03-11" onchange="applyFilters()">
+            </div>
+            <div class="filter-sep"></div>
+            <div class="filter-group">
+                <span class="filter-label">🎯 Skor</span>
+                <span class="filter-chip active" onclick="toggleFilter('score','1',this)">S1</span>
+                <span class="filter-chip active" onclick="toggleFilter('score','2',this)">S2</span>
+                <span class="filter-chip active" onclick="toggleFilter('score','3',this)">S3</span>
+                <span class="filter-chip active" onclick="toggleFilter('score','4',this)">S4</span>
+                <span class="filter-chip active" onclick="toggleFilter('score','5',this)">S5</span>
+                <span class="filter-chip active" onclick="toggleFilter('score','6',this)">S6</span>
+            </div>
+            <div class="filter-sep"></div>
+            <div class="filter-group">
+                <span class="filter-label">📋 Aktivitas</span>
+                <span class="filter-chip active" onclick="toggleFilter('act','Follow up',this)">Follow Up</span>
+                <span class="filter-chip active" onclick="toggleFilter('act','Pertanyaan',this)">Pertanyaan</span>
+                <span class="filter-chip active" onclick="toggleFilter('act','Dokumen',this)">Dokumen</span>
+                <span class="filter-chip active" onclick="toggleFilter('act','Closing',this)">Closing</span>
+                <span class="filter-chip active" onclick="toggleFilter('act','FINISH',this)">Finish</span>
+            </div>
+            <button class="filter-reset" onclick="resetFilters()">↺ Reset</button>
+            <div class="filter-stats" id="filter-stats">Menampilkan: semua data</div>
+        </div>
+
+        <!-- KPI -->
+        <div class="section" style="padding-top:22px">
+            <div class="section-title">📌 Ringkasan (Sesuai Filter)</div>
+            <div class="kpi-row" id="ov-kpi-row">
+                <div class="kpi c1">
+                    <div class="kpi-label">Total Semua CS</div>
+                    <div class="kpi-value" id="kpi-total" style="color:#1565c0">4.022</div>
+                    <div class="kpi-sub">Setelah filter</div>
+                </div>
+                <div class="kpi c1">
+                    <div class="kpi-label">CS Devi</div>
+                    <div class="kpi-value" id="kpi-devi" style="color:#1565c0">1.530</div>
+                    <div class="kpi-sub" id="kpi-devi-sub">43 hari · avg 35,6/hari</div>
+                </div>
+                <div class="kpi c2">
+                    <div class="kpi-label">CS Julia</div>
+                    <div class="kpi-value" id="kpi-julia" style="color:#0288d1">1.217</div>
+                    <div class="kpi-sub" id="kpi-julia-sub">39 hari · avg 31,2/hari</div>
+                </div>
+                <div class="kpi c3">
+                    <div class="kpi-label">CS Dewi</div>
+                    <div class="kpi-value" id="kpi-dewi" style="color:#00838f">1.275</div>
+                    <div class="kpi-sub" id="kpi-dewi-sub">32 hari · avg 39,8/hari</div>
+                </div>
+                <div class="kpi c4">
+                    <div class="kpi-label">Produktivitas Tertinggi</div>
+                    <div class="kpi-value" id="kpi-best" style="color:#558b2f">Dewi</div>
+                    <div class="kpi-sub" id="kpi-best-sub">39,8 klien/hari</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 1 -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">Total Klien per CS</div>
+                <div class="chart-sub">Volume chat keseluruhan (terfilter)</div>
+                <div class="chart-wrap h240"><canvas id="ov-bar-total"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Rata-rata Klien / Hari</div>
+                <div class="chart-sub">Produktivitas harian per CS (terfilter)</div>
+                <div class="chart-wrap h240"><canvas id="ov-avg-day"></canvas></div>
+            </div>
+
+            <!-- TREN COMPARE -->
+            <div class="chart-card full">
+                <div class="chart-title">📈 Tren Harian — Ketiga CS</div>
+                <div class="chart-sub">Volume klien dibalas per hari (terfilter)</div>
+                <div class="chart-wrap h320"><canvas id="ov-trend-compare"></canvas></div>
+            </div>
+        </div>
+
+        <!-- ROW 2: Ranking harian -->
+        <div class="charts-grid" style="padding-top:0">
+            <div class="chart-card full">
+                <div class="chart-title">🏆 Ranking Harian CS — Siapa #1 Tiap Hari?</div>
+                <div class="chart-sub">CS dengan volume tertinggi setiap hari kerja</div>
+                <div style="overflow-x:auto">
+                    <table class="rank-table" id="rank-table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>🥇 #1</th>
+                                <th>🥈 #2</th>
+                                <th>🥉 #3</th>
+                                <th>Selisih #1 vs #2</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rank-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 3: Weekly trend skor dominan -->
+        <div class="charts-grid" style="padding-top:0">
+            <div class="chart-card full">
+                <div class="chart-title">📈 Tren Skor Dominan per Minggu</div>
+                <div class="chart-sub">Skor mana yang paling banyak ditangani tiap minggunya (gabungan 3 CS)</div>
+                <div class="score-legend">
+                    <div class="score-pill">
+                        <div class="score-dot" style="background:#1976d2"></div>Skor 1
+                    </div>
+                    <div class="score-pill">
+                        <div class="score-dot" style="background:#039be5"></div>Skor 2
+                    </div>
+                    <div class="score-pill">
+                        <div class="score-dot" style="background:#00838f"></div>Skor 3
+                    </div>
+                    <div class="score-pill">
+                        <div class="score-dot" style="background:#558b2f"></div>Skor 4
+                    </div>
+                    <div class="score-pill">
+                        <div class="score-dot" style="background:#f57c00"></div>Skor 5
+                    </div>
+                    <div class="score-pill">
+                        <div class="score-dot" style="background:#c62828"></div>Skor 6
+                    </div>
+                </div>
+                <div class="chart-wrap h300"><canvas id="ov-weekly-score"></canvas></div>
+            </div>
+        </div>
+
+        <!-- ROW 4: Aktivitas + skor grouped -->
+        <div class="charts-grid" style="padding-top:0">
+            <div class="chart-card">
+                <div class="chart-title">🥧 Komposisi Aktivitas per CS</div>
+                <div class="chart-sub">Follow Up vs Pertanyaan vs Dokumen vs lainnya</div>
+                <div class="chart-wrap h280"><canvas id="ov-act-compare"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">🎯 Distribusi Skor — Semua CS</div>
+                <div class="chart-sub">Jumlah klien per skor dari masing-masing CS</div>
+                <div class="chart-wrap h280"><canvas id="ov-grouped-score"></canvas></div>
+            </div>
+        </div>
+
+        <!-- ROW 5: Heatmap -->
+        <div class="charts-grid" style="padding-top:0;padding-bottom:40px">
+            <div class="chart-card full">
+                <div class="chart-title">📅 Heatmap Aktivitas Harian — Gabungan 3 CS</div>
+                <div class="chart-sub">Intensitas total klien dibalas setiap hari (warna lebih gelap = lebih sibuk)
+                </div>
+                <div class="heatmap-wrap" id="heatmap-container"></div>
+                <div class="heatmap-legend">
+                    <span>Lebih sedikit</span>
+                    <div class="hm-legend-cell" style="background:#e3f2fd"></div>
+                    <div class="hm-legend-cell" style="background:#90caf9"></div>
+                    <div class="hm-legend-cell" style="background:#42a5f5"></div>
+                    <div class="hm-legend-cell" style="background:#1976d2"></div>
+                    <div class="hm-legend-cell" style="background:#0d47a1"></div>
+                    <span>Lebih sibuk</span>
+                </div>
+            </div>
+
+            <!-- Radar -->
+            <div class="chart-card">
+                <div class="chart-title">Profil Skor per CS (Radar)</div>
+                <div class="chart-sub">Proporsi relatif tiap skor antar CS</div>
+                <div class="chart-wrap h280"><canvas id="ov-radar"></canvas></div>
+            </div>
+
+            <!-- Score table -->
+            <div class="chart-card">
+                <div class="chart-title">Rekap Skor Lengkap — 3 CS</div>
+                <div class="chart-sub">Total klien per skor dari setiap CS</div>
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Skor</th>
+                            <th style="color:#1565c0">Devi</th>
+                            <th style="color:#0288d1">Julia</th>
+                            <th style="color:#00838f">Dewi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ov-score-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div><!-- end overview -->
+
+    <!-- ============================================================ INDIVIDUAL TABS ============================================================ -->
+    <script>
+        // ===================== RAW DATA =====================
+        const SC = ['#1976d2', '#039be5', '#00838f', '#558b2f', '#f57c00', '#c62828'];
+        const SL = ['Skor 1', 'Skor 2', 'Skor 3', 'Skor 4', 'Skor 5', 'Skor 6'];
+        const SLL = ['Skor 1 – Pertanyaan', 'Skor 2 – FU Awal', 'Skor 3 – Proses Aktif', 'Skor 4 – Dokumen', 'Skor 5 – Hampir Selesai', 'Skor 6 – Selesai'];
+        const SINFO = ['Pertanyaan', 'FU Awal', 'Proses Aktif', 'Dokumen', 'Hampir Selesai', 'Selesai'];
+
+        const RAW = {
+            devi: {
+                name: 'CS Devi', color: '#1565c0',
+                total: 1530, days: 38, avg: 40.3,
+                score_dist: { 1: 437, 2: 67, 3: 452, 4: 89, 5: 406, 6: 73 },
+                activities: { 'Follow up': 877, 'Pertanyaan': 436, 'Dokumen': 143, 'Closing': 49, 'Komplen': 19, 'Minta Refund': 1 },
+                daily: [
+                    { d: '2026-01-21', t: 6, s: [2, 0, 0, 3, 0, 0], a: { 'Pertanyaan': 2, 'Follow up': 4 } },
+                    { d: '2026-01-22', t: 15, s: [3, 0, 3, 2, 7, 0], a: { 'Follow up': 6, 'Dokumen': 6, 'Pertanyaan': 3 } },
+                    { d: '2026-01-23', t: 15, s: [5, 0, 7, 0, 3, 0], a: { 'Follow up': 8, 'Pertanyaan': 4, 'Dokumen': 3 } },
+                    { d: '2026-01-26', t: 19, s: [14, 2, 2, 0, 1, 0], a: { 'Pertanyaan': 15, 'Follow up': 3, 'Dokumen': 1 } },
+                    { d: '2026-01-27', t: 17, s: [13, 2, 0, 1, 1, 0], a: { 'Pertanyaan': 14, 'Follow up': 1, 'Dokumen': 2 } },
+                    { d: '2026-01-28', t: 10, s: [7, 1, 1, 0, 1, 0], a: { 'Follow up': 2, 'Dokumen': 1, 'Pertanyaan': 7 } },
+                    { d: '2026-01-29', t: 20, s: [11, 1, 1, 0, 6, 1], a: { 'Pertanyaan': 12, 'Dokumen': 6, 'Follow up': 1, 'Closing': 1 } },
+                    { d: '2026-01-30', t: 18, s: [9, 1, 5, 0, 2, 1], a: { 'Pertanyaan': 11, 'Closing': 1, 'Follow up': 4, 'Dokumen': 2 } },
+                    { d: '2026-02-02', t: 15, s: [13, 1, 1, 0, 0, 0], a: { 'Follow up': 3, 'Pertanyaan': 12 } },
+                    { d: '2026-02-03', t: 35, s: [12, 2, 17, 1, 2, 1], a: { 'Follow up': 19, 'Dokumen': 3, 'Pertanyaan': 11, 'Closing': 2 } },
+                    { d: '2026-02-04', t: 60, s: [24, 4, 17, 2, 9, 4], a: { 'Follow up': 23, 'Pertanyaan': 22, 'Closing': 3, 'Komplen': 2, 'Dokumen': 10 } },
+                    { d: '2026-02-05', t: 52, s: [15, 4, 17, 0, 8, 8], a: { 'Follow up': 21, 'Dokumen': 8, 'Pertanyaan': 16, 'Closing': 5, 'Komplen': 2 } },
+                    { d: '2026-02-06', t: 58, s: [13, 5, 18, 1, 19, 2], a: { 'Pertanyaan': 13, 'Follow up': 39, 'Dokumen': 4, 'Komplen': 2 } },
+                    { d: '2026-02-07', t: 55, s: [17, 5, 19, 3, 10, 1], a: { 'Follow up': 29, 'Pertanyaan': 18, 'Dokumen': 8 } },
+                    { d: '2026-02-09', t: 68, s: [21, 2, 18, 1, 23, 3], a: { 'Follow up': 41, 'Closing': 3, 'Pertanyaan': 21, 'Dokumen': 3 } },
+                    { d: '2026-02-10', t: 61, s: [19, 4, 25, 1, 9, 3], a: { 'Pertanyaan': 18, 'Follow up': 31, 'Closing': 2, 'Dokumen': 8, 'Komplen': 2 } },
+                    { d: '2026-02-11', t: 56, s: [13, 1, 19, 0, 20, 3], a: { 'Follow up': 41, 'Closing': 2, 'Pertanyaan': 11, 'Dokumen': 1, 'Komplen': 1 } },
+                    { d: '2026-02-12', t: 51, s: [9, 1, 19, 3, 18, 1], a: { 'Pertanyaan': 7, 'Follow up': 38, 'Dokumen': 4, 'Closing': 1, 'Komplen': 1 } },
+                    { d: '2026-02-13', t: 36, s: [10, 1, 11, 1, 11, 2], a: { 'Follow up': 22, 'Closing': 2, 'Pertanyaan': 10, 'Dokumen': 2 } },
+                    { d: '2026-02-16', t: 45, s: [6, 2, 17, 2, 17, 1], a: { 'Dokumen': 10, 'Closing': 1, 'Follow up': 28, 'Pertanyaan': 6 } },
+                    { d: '2026-02-18', t: 47, s: [14, 1, 12, 3, 14, 3], a: { 'Pertanyaan': 15, 'Dokumen': 13, 'Closing': 3, 'Follow up': 16 } },
+                    { d: '2026-02-19', t: 54, s: [18, 1, 15, 2, 16, 2], a: { 'Dokumen': 26, 'Follow up': 10, 'Pertanyaan': 16, 'Komplen': 1, 'Closing': 1 } },
+                    { d: '2026-02-20', t: 44, s: [8, 1, 9, 2, 21, 3], a: { 'Closing': 2, 'Follow up': 29, 'Dokumen': 3, 'Pertanyaan': 9, 'Komplen': 1 } },
+                    { d: '2026-02-21', t: 62, s: [23, 3, 20, 0, 12, 4], a: { 'Closing': 4, 'Pertanyaan': 23, 'Dokumen': 4, 'Follow up': 31 } },
+                    { d: '2026-02-23', t: 35, s: [4, 0, 6, 3, 17, 5], a: { 'Follow up': 25, 'Closing': 3, 'Komplen': 1, 'Dokumen': 2, 'Pertanyaan': 4 } },
+                    { d: '2026-02-24', t: 45, s: [12, 1, 12, 2, 14, 4], a: { 'Pertanyaan': 14, 'Dokumen': 2, 'Follow up': 26, 'Closing': 2, 'Komplen': 1 } },
+                    { d: '2026-02-25', t: 64, s: [23, 1, 23, 2, 13, 2], a: { 'Follow up': 38, 'Closing': 1, 'Pertanyaan': 23, 'Komplen': 1, 'Dokumen': 1 } },
+                    { d: '2026-02-26', t: 52, s: [18, 2, 13, 1, 15, 3], a: { 'Follow up': 29, 'Closing': 2, 'Pertanyaan': 19, 'Komplen': 1, 'Dokumen': 1 } },
+                    { d: '2026-02-27', t: 56, s: [18, 3, 17, 6, 11, 1], a: { 'Pertanyaan': 17, 'Follow up': 36, 'Dokumen': 2, 'Komplen': 1 } },
+                    { d: '2026-03-02', t: 51, s: [13, 2, 18, 6, 10, 2], a: { 'Pertanyaan': 13, 'Follow up': 35, 'Dokumen': 1, 'Komplen': 1, 'Closing': 1 } },
+                    { d: '2026-03-03', t: 45, s: [9, 3, 12, 5, 16, 0], a: { 'Follow up': 37, 'Pertanyaan': 8 } },
+                    { d: '2026-03-04', t: 41, s: [3, 1, 15, 4, 14, 4], a: { 'Follow up': 35, 'Closing': 3, 'Dokumen': 1, 'Pertanyaan': 2 } },
+                    { d: '2026-03-05', t: 33, s: [2, 1, 8, 6, 16, 0], a: { 'Follow up': 31, 'Pertanyaan': 2 } },
+                    { d: '2026-03-06', t: 30, s: [5, 0, 8, 3, 10, 4], a: { 'Follow up': 21, 'Closing': 3, 'Pertanyaan': 5, 'Komplen': 1 } },
+                    { d: '2026-03-08', t: 46, s: [18, 2, 13, 8, 2, 3], a: { 'Follow up': 24, 'Pertanyaan': 18, 'Minta Refund': 1, 'Dokumen': 3 } },
+                    { d: '2026-03-09', t: 35, s: [4, 1, 12, 6, 11, 1], a: { 'Follow up': 28, 'Pertanyaan': 5, 'Dokumen': 2 } },
+                    { d: '2026-03-10', t: 40, s: [6, 4, 13, 4, 13, 0], a: { 'Follow up': 34, 'Pertanyaan': 6 } },
+                    { d: '2026-03-11', t: 33, s: [3, 1, 9, 5, 14, 1], a: { 'Pertanyaan': 4, 'Follow up': 28, 'Closing': 1 } }
+                ]
+            },
+            julia: {
+                name: 'CS Julia', color: '#0288d1',
+                total: 1217, days: 38, avg: 32.0,
+                score_dist: { 1: 357, 2: 77, 3: 414, 4: 22, 5: 250, 6: 81 },
+                activities: { 'Follow up': 588, 'Pertanyaan': 358, 'Dokumen': 155, 'Closing': 79, 'Komplen': 1 },
+                daily: [
+                    { d: '2026-01-23', t: 15, s: [6, 1, 2, 0, 6, 0], a: { 'Pertanyaan': 5, 'Follow up': 4, 'Dokumen': 6 } },
+                    { d: '2026-01-24', t: 15, s: [10, 0, 3, 0, 2, 0], a: { 'Pertanyaan': 10, 'Follow up': 2, 'Dokumen': 2, 'Komplen': 1 } },
+                    { d: '2026-01-26', t: 11, s: [6, 2, 3, 0, 0, 0], a: { 'Follow up': 4, 'Pertanyaan': 7 } },
+                    { d: '2026-01-27', t: 13, s: [11, 0, 1, 0, 1, 0], a: { 'Follow up': 2, 'Pertanyaan': 11 } },
+                    { d: '2026-01-28', t: 15, s: [8, 2, 3, 0, 2, 0], a: { 'Pertanyaan': 9, 'Follow up': 6 } },
+                    { d: '2026-01-29', t: 11, s: [10, 1, 0, 0, 0, 0], a: { 'Pertanyaan': 9, 'Follow up': 1 } },
+                    { d: '2026-01-30', t: 9, s: [4, 3, 0, 0, 2, 0], a: { 'Pertanyaan': 4, 'Follow up': 3, 'Dokumen': 1 } },
+                    { d: '2026-01-31', t: 6, s: [3, 0, 2, 1, 0, 0], a: { 'Pertanyaan': 4, 'Follow up': 2 } },
+                    { d: '2026-02-02', t: 21, s: [17, 2, 0, 0, 1, 1], a: { 'Pertanyaan': 17, 'Follow up': 3, 'Closing': 1 } },
+                    { d: '2026-02-03', t: 31, s: [8, 8, 8, 3, 2, 2], a: { 'Pertanyaan': 6, 'Follow up': 23, 'Dokumen': 1, 'Closing': 1 } },
+                    { d: '2026-02-04', t: 49, s: [15, 6, 11, 0, 12, 4], a: { 'Follow up': 22, 'Pertanyaan': 16, 'Closing': 3, 'Dokumen': 5 } },
+                    { d: '2026-02-05', t: 51, s: [17, 5, 11, 2, 10, 5], a: { 'Follow up': 24, 'Dokumen': 4, 'Pertanyaan': 16, 'Closing': 5 } },
+                    { d: '2026-02-06', t: 41, s: [10, 3, 10, 3, 14, 1], a: { 'Pertanyaan': 10, 'Follow up': 25, 'Dokumen': 5, 'Closing': 1 } },
+                    { d: '2026-02-08', t: 38, s: [3, 2, 14, 2, 11, 4], a: { 'Follow up': 22, 'Dokumen': 7, 'Pertanyaan': 3, 'Closing': 4 } },
+                    { d: '2026-02-09', t: 25, s: [5, 2, 7, 1, 7, 3], a: { 'Closing': 3, 'Dokumen': 4, 'Follow up': 12, 'Pertanyaan': 4 } },
+                    { d: '2026-02-10', t: 36, s: [11, 2, 10, 1, 9, 3], a: { 'Follow up': 17, 'Dokumen': 6, 'Pertanyaan': 10, 'Closing': 3 } },
+                    { d: '2026-02-11', t: 37, s: [13, 1, 9, 3, 9, 2], a: { 'Follow up': 14, 'Pertanyaan': 16, 'Dokumen': 5, 'Closing': 2 } },
+                    { d: '2026-02-12', t: 35, s: [15, 1, 11, 0, 4, 4], a: { 'Pertanyaan': 15, 'Follow up': 14, 'Closing': 4, 'Dokumen': 2 } },
+                    { d: '2026-02-13', t: 34, s: [12, 3, 10, 1, 8, 0], a: { 'Follow up': 19, 'Dokumen': 3, 'Pertanyaan': 12 } },
+                    { d: '2026-02-16', t: 33, s: [7, 0, 13, 1, 12, 0], a: { 'Follow up': 23, 'Pertanyaan': 4, 'Dokumen': 5 } },
+                    { d: '2026-02-17', t: 76, s: [26, 6, 24, 1, 13, 4], a: { 'Pertanyaan': 26, 'Dokumen': 10, 'Follow up': 34, 'Closing': 4 } },
+                    { d: '2026-02-18', t: 33, s: [10, 1, 8, 1, 10, 3], a: { 'Closing': 3, 'Follow up': 14, 'Pertanyaan': 10, 'Dokumen': 6 } },
+                    { d: '2026-02-19', t: 35, s: [7, 1, 8, 1, 16, 2], a: { 'Dokumen': 8, 'Closing': 2, 'Pertanyaan': 7, 'Follow up': 18 } },
+                    { d: '2026-02-20', t: 30, s: [5, 1, 9, 1, 10, 4], a: { 'Closing': 3, 'Pertanyaan': 5, 'Dokumen': 5, 'Follow up': 17 } },
+                    { d: '2026-02-23', t: 28, s: [8, 1, 7, 0, 10, 2], a: { 'Dokumen': 7, 'Pertanyaan': 9, 'Follow up': 7, 'Closing': 2 } },
+                    { d: '2026-02-24', t: 40, s: [12, 1, 11, 0, 9, 6], a: { 'Closing': 5, 'Dokumen': 6, 'Pertanyaan': 13, 'Follow up': 14 } },
+                    { d: '2026-02-25', t: 49, s: [18, 4, 18, 0, 6, 3], a: { 'Follow up': 22, 'Pertanyaan': 18, 'Dokumen': 5, 'Closing': 4 } },
+                    { d: '2026-02-26', t: 44, s: [21, 2, 17, 0, 3, 1], a: { 'Pertanyaan': 23, 'Follow up': 17, 'Dokumen': 3, 'Closing': 1 } },
+                    { d: '2026-02-27', t: 33, s: [9, 1, 19, 0, 3, 1], a: { 'Follow up': 20, 'Pertanyaan': 8, 'Dokumen': 3, 'Closing': 1 } },
+                    { d: '2026-02-28', t: 66, s: [13, 5, 26, 0, 10, 10], a: { 'Follow up': 35, 'Dokumen': 6, 'Closing': 10, 'Pertanyaan': 12 } },
+                    { d: '2026-03-02', t: 38, s: [9, 1, 19, 0, 4, 5], a: { 'Follow up': 19, 'Closing': 5, 'Dokumen': 4, 'Pertanyaan': 9 } },
+                    { d: '2026-03-03', t: 32, s: [8, 2, 14, 0, 3, 3], a: { 'Follow up': 11, 'Pertanyaan': 9, 'Dokumen': 3, 'Closing': 4 } },
+                    { d: '2026-03-04', t: 30, s: [1, 1, 14, 0, 10, 2], a: { 'Follow up': 16, 'Closing': 2, 'Dokumen': 8, 'Pertanyaan': 2 } },
+                    { d: '2026-03-05', t: 27, s: [4, 1, 15, 0, 6, 1], a: { 'Follow up': 18, 'Pertanyaan': 3, 'Closing': 1, 'Dokumen': 4 } },
+                    { d: '2026-03-06', t: 27, s: [4, 1, 12, 0, 8, 1], a: { 'Follow up': 13, 'Dokumen': 7, 'Pertanyaan': 5, 'Closing': 1 } },
+                    { d: '2026-03-09', t: 28, s: [4, 0, 16, 0, 7, 1], a: { 'Follow up': 16, 'Pertanyaan': 4, 'Closing': 1, 'Dokumen': 7 } },
+                    { d: '2026-03-10', t: 31, s: [3, 0, 21, 0, 6, 0], a: { 'Follow up': 22, 'Dokumen': 5, 'Pertanyaan': 3 } },
+                    { d: '2026-03-11', t: 43, s: [4, 4, 28, 0, 4, 3], a: { 'Follow up': 33, 'Dokumen': 2, 'Closing': 3, 'Pertanyaan': 4 } }
+                ]
+            },
+            dewi: {
+                name: 'CS Dewi', color: '#00838f',
+                total: 1275, days: 32, avg: 39.8,
+                score_dist: { 1: 335, 2: 170, 3: 255, 4: 86, 5: 340, 6: 82 },
+                activities: { 'Follow up': 751, 'Pertanyaan': 331, 'Dokumen': 136, 'FINISH': 42, 'DATA FOLLOW UP KEMBALI': 5, 'Komplen': 2, 'Pembayaran': 2 },
+                daily: [
+                    { d: '2026-02-02', t: 14, s: [9, 0, 1, 1, 3, 0], a: { 'Pertanyaan': 9, 'Dokumen': 2, 'Follow up': 3 } },
+                    { d: '2026-02-03', t: 14, s: [5, 0, 5, 0, 4, 0], a: { 'Pertanyaan': 5, 'Dokumen': 4, 'Follow up': 4, 'Komplen': 1 } },
+                    { d: '2026-02-04', t: 14, s: [3, 1, 6, 1, 3, 0], a: { 'Dokumen': 8, 'Pertanyaan': 3, 'Follow up': 3 } },
+                    { d: '2026-02-05', t: 33, s: [8, 0, 14, 3, 4, 4], a: { 'Dokumen': 8, 'Pertanyaan': 7, 'Follow up': 16, 'FINISH': 2 } },
+                    { d: '2026-02-06', t: 44, s: [9, 0, 16, 8, 9, 2], a: { 'Dokumen': 11, 'Follow up': 25, 'Pertanyaan': 8 } },
+                    { d: '2026-02-07', t: 13, s: [2, 2, 9, 0, 0, 0], a: { 'Pertanyaan': 2, 'Follow up': 11 } },
+                    { d: '2026-02-09', t: 55, s: [13, 3, 15, 6, 13, 5], a: { 'Follow up': 23, 'Pertanyaan': 11, 'Dokumen': 21 } },
+                    { d: '2026-02-10', t: 43, s: [18, 0, 5, 2, 13, 5], a: { 'Pertanyaan': 17, 'Follow up': 7, 'Dokumen': 16, 'Komplen': 1, 'Pembayaran': 2 } },
+                    { d: '2026-02-11', t: 44, s: [17, 5, 6, 3, 11, 2], a: { 'Pertanyaan': 18, 'Dokumen': 10, 'Follow up': 16 } },
+                    { d: '2026-02-12', t: 57, s: [20, 6, 5, 1, 16, 9], a: { 'Pertanyaan': 22, 'Follow up': 26, 'Dokumen': 6, 'FINISH': 3 } },
+                    { d: '2026-02-13', t: 43, s: [16, 4, 5, 2, 9, 7], a: { 'Pertanyaan': 15, 'Dokumen': 4, 'Follow up': 19, 'FINISH': 5 } },
+                    { d: '2026-02-14', t: 5, s: [0, 0, 0, 0, 4, 1], a: { 'Follow up': 4, 'FINISH': 1 } },
+                    { d: '2026-02-15', t: 51, s: [13, 10, 9, 0, 15, 4], a: { 'Follow up': 26, 'Dokumen': 7, 'Pertanyaan': 16, 'FINISH': 2 } },
+                    { d: '2026-02-16', t: 35, s: [10, 5, 7, 2, 10, 1], a: { 'Dokumen': 6, 'Follow up': 18, 'Pertanyaan': 10, 'FINISH': 1 } },
+                    { d: '2026-02-18', t: 51, s: [11, 7, 6, 7, 15, 5], a: { 'Pertanyaan': 11, 'Follow up': 33, 'Dokumen': 5, 'FINISH': 2 } },
+                    { d: '2026-02-19', t: 56, s: [7, 6, 7, 7, 24, 5], a: { 'FINISH': 4, 'Follow up': 42, 'Dokumen': 2, 'Pertanyaan': 8 } },
+                    { d: '2026-02-20', t: 39, s: [9, 3, 7, 1, 15, 4], a: { 'Pertanyaan': 9, 'FINISH': 2, 'Follow up': 22, 'Dokumen': 6 } },
+                    { d: '2026-02-21', t: 14, s: [1, 4, 2, 2, 5, 0], a: { 'Follow up': 10, 'Pertanyaan': 1, 'Dokumen': 2, 'DATA FOLLOW UP KEMBALI': 1 } },
+                    { d: '2026-02-23', t: 46, s: [7, 3, 9, 5, 17, 5], a: { 'Pertanyaan': 7, 'Follow up': 33, 'FINISH': 4, 'Dokumen': 1, 'DATA FOLLOW UP KEMBALI': 1 } },
+                    { d: '2026-02-24', t: 50, s: [12, 6, 8, 5, 15, 4], a: { 'Follow up': 31, 'Dokumen': 3, 'DATA FOLLOW UP KEMBALI': 3, 'FINISH': 1, 'Pertanyaan': 12 } },
+                    { d: '2026-02-25', t: 41, s: [10, 3, 8, 5, 11, 4], a: { 'Follow up': 23, 'Pertanyaan': 10, 'Dokumen': 5, 'FINISH': 3 } },
+                    { d: '2026-02-26', t: 46, s: [17, 4, 9, 1, 12, 3], a: { 'Pertanyaan': 15, 'Follow up': 23, 'Dokumen': 5, 'FINISH': 3 } },
+                    { d: '2026-02-27', t: 35, s: [8, 6, 3, 0, 15, 2], a: { 'FINISH': 2, 'Follow up': 24, 'Pertanyaan': 8 } },
+                    { d: '2026-03-01', t: 48, s: [13, 13, 7, 4, 7, 4], a: { 'Follow up': 31, 'Pertanyaan': 13, 'FINISH': 3, 'Dokumen': 1 } },
+                    { d: '2026-03-02', t: 43, s: [14, 11, 1, 3, 12, 2], a: { 'Follow up': 27, 'Pertanyaan': 14, 'Dokumen': 2 } },
+                    { d: '2026-03-03', t: 39, s: [16, 6, 8, 1, 7, 1], a: { 'Follow up': 22, 'Pertanyaan': 16, 'FINISH': 1 } },
+                    { d: '2026-03-04', t: 56, s: [14, 5, 9, 4, 24, 0], a: { 'Follow up': 42, 'Dokumen': 1, 'Pertanyaan': 13 } },
+                    { d: '2026-03-05', t: 53, s: [8, 12, 14, 5, 13, 1], a: { 'Follow up': 45, 'Pertanyaan': 7, 'FINISH': 1 } },
+                    { d: '2026-03-06', t: 45, s: [7, 11, 14, 2, 10, 0], a: { 'Follow up': 39, 'Pertanyaan': 6 } },
+                    { d: '2026-03-09', t: 49, s: [7, 8, 14, 2, 18, 0], a: { 'Follow up': 42, 'Pertanyaan': 7 } },
+                    { d: '2026-03-10', t: 46, s: [16, 12, 13, 1, 3, 0], a: { 'Follow up': 29, 'Pertanyaan': 16 } },
+                    { d: '2026-03-11', t: 50, s: [15, 14, 13, 2, 3, 2], a: { 'Follow up': 32, 'Pertanyaan': 15, 'FINISH': 2 } }
+                ]
+            }
+        };
+
+        // ===================== FILTER STATE =====================
+        const F = {
+            cs: new Set(['devi', 'julia', 'dewi']),
+            scores: new Set(['1', '2', '3', '4', '5', '6']),
+            acts: new Set(['Follow up', 'Pertanyaan', 'Dokumen', 'Closing', 'FINISH']),
+            dateFrom: '2026-01-21',
+            dateTo: '2026-03-11'
+        };
+
+        function toggleFilter(type, val, el) {
+            const map = { cs: F.cs, score: F.scores, act: F.acts };
+            const set = map[type];
+            if (set.has(val)) { set.delete(val); } else { set.add(val); }
+            el.classList.toggle('active');
+            applyFilters();
+        }
+
+        function resetFilters() {
+            F.cs = new Set(['devi', 'julia', 'dewi']);
+            F.scores = new Set(['1', '2', '3', '4', '5', '6']);
+            F.acts = new Set(['Follow up', 'Pertanyaan', 'Dokumen', 'Closing', 'FINISH']);
+            document.getElementById('f-date-from').value = '2026-01-21';
+            document.getElementById('f-date-to').value = '2026-03-11';
+            F.dateFrom = '2026-01-21'; F.dateTo = '2026-03-11';
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.add('active'));
+            applyFilters();
+        }
+
+        function getFiltered(csKey) {
+            if (!F.cs.has(csKey)) return [];
+            return RAW[csKey].daily.filter(d => {
+                if (d.d < F.dateFrom || d.d > F.dateTo) return false;
+                return true;
+            });
+        }
+
+        function filteredTotal(csKey) {
+            return getFiltered(csKey).reduce((s, d) => {
+                return s + [1, 2, 3, 4, 5, 6].filter(i => F.scores.has(String(i))).reduce((ss, i) => ss + d.s[i - 1], 0);
+            }, 0);
+        }
+
+        function filteredScoreDist(csKey) {
+            const dist = {};
+            getFiltered(csKey).forEach(d => {
+                [1, 2, 3, 4, 5, 6].forEach((i, idx) => {
+                    if (F.scores.has(String(i))) dist[i] = (dist[i] || 0) + d.s[idx];
+                });
+            });
+            return dist;
+        }
+
+        // ===================== CHART INSTANCES =====================
+        const charts = {};
+        const TCFG = { backgroundColor: 'rgba(255,255,255,0.95)', borderColor: 'rgba(144,202,249,0.6)', borderWidth: 1.5, titleColor: '#1a237e', bodyColor: '#3949ab', padding: 10, cornerRadius: 10 };
+
+        function mkChart(id, cfg) {
+            if (charts[id]) charts[id].destroy();
+            charts[id] = new Chart(document.getElementById(id), cfg);
+            return charts[id];
+        }
+
+        Chart.defaults.font.family = 'Nunito';
+        Chart.defaults.color = '#5c6bc0';
+        Chart.defaults.borderColor = 'rgba(144,202,249,0.3)';
+
+        // ===================== APPLY FILTERS =====================
+        function applyFilters() {
+            F.dateFrom = document.getElementById('f-date-from').value;
+            F.dateTo = document.getElementById('f-date-to').value;
+
+            const csKeys = ['devi', 'julia', 'dewi'].filter(k => F.cs.has(k));
+            const totals = {};
+            const days_counts = {};
+            csKeys.forEach(k => {
+                const rows = getFiltered(k);
+                totals[k] = filteredTotal(k);
+                days_counts[k] = rows.length;
+            });
+            const allTotal = Object.values(totals).reduce((a, b) => a + b, 0);
+
+            // KPI
+            document.getElementById('kpi-total').textContent = allTotal.toLocaleString('id-ID');
+            ['devi', 'julia', 'dewi'].forEach(k => {
+                const el = document.getElementById('kpi-' + k);
+                const sub = document.getElementById('kpi-' + k + '-sub');
+                if (F.cs.has(k)) {
+                    el.textContent = (totals[k] || 0).toLocaleString('id-ID');
+                    const avg = days_counts[k] > 0 ? ((totals[k] || 0) / days_counts[k]).toFixed(1) : 0;
+                    sub.textContent = `${days_counts[k]} hari · avg ${avg}/hari`;
+                } else {
+                    el.textContent = '—'; sub.textContent = 'filter nonaktif';
+                }
+            });
+            // Best
+            if (csKeys.length > 0) {
+                const bestK = csKeys.reduce((a, b) => {
+                    const avgA = days_counts[a] > 0 ? totals[a] / days_counts[a] : 0;
+                    const avgB = days_counts[b] > 0 ? totals[b] / days_counts[b] : 0;
+                    return avgA >= avgB ? a : b;
+                });
+                const bestAvg = days_counts[bestK] > 0 ? (totals[bestK] / days_counts[bestK]).toFixed(1) : 0;
+                document.getElementById('kpi-best').textContent = RAW[bestK].name.replace('CS ', '');
+                document.getElementById('kpi-best-sub').textContent = `${bestAvg} klien/hari`;
+            }
+
+            document.getElementById('filter-stats').textContent =
+                `CS: ${csKeys.map(k => RAW[k].name).join(', ') || '—'} · Total: ${allTotal.toLocaleString('id-ID')}`;
+
+            renderOvCharts(csKeys, totals, days_counts);
+            renderRankTable(csKeys);
+            renderWeeklyScore(csKeys);
+            renderHeatmap(csKeys);
+        }
+
+        // ===================== OVERVIEW CHARTS =====================
+        function renderOvCharts(csKeys, totals, days_counts) {
+            const NAMES = csKeys.map(k => RAW[k].name);
+            const COLORS = csKeys.map(k => RAW[k].color);
+
+            // Bar total
+            mkChart('ov-bar-total', { type: 'bar', data: { labels: NAMES, datasets: [{ data: csKeys.map(k => totals[k] || 0), backgroundColor: COLORS, borderRadius: 10, borderSkipped: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { ...TCFG, callbacks: { label: c => ` ${c.parsed.y} klien` } } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 13, weight: '700' } } }, y: { grid: { color: 'rgba(144,202,249,0.2)' }, beginAtZero: true } } } });
+
+            // Avg/hari
+            const avgs = csKeys.map(k => days_counts[k] > 0 ? +((totals[k] || 0) / days_counts[k]).toFixed(1) : 0);
+            mkChart('ov-avg-day', { type: 'bar', data: { labels: NAMES, datasets: [{ data: avgs, backgroundColor: COLORS.map(c => c + 'bb'), borderColor: COLORS, borderWidth: 2, borderRadius: 10, borderSkipped: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { ...TCFG, callbacks: { label: c => ` ${c.parsed.y} klien/hari` } } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 13, weight: '700' } } }, y: { grid: { color: 'rgba(144,202,249,0.2)' }, beginAtZero: true } } } });
+
+            // Tren compare
+            const allDates = [...new Set(csKeys.flatMap(k => getFiltered(k).map(d => d.d)))].sort();
+            const trendDS = csKeys.map(k => ({
+                label: RAW[k].name,
+                data: allDates.map(date => {
+                    const r = getFiltered(k).find(d => d.d === date);
+                    if (!r) return null;
+                    return [1, 2, 3, 4, 5, 6].filter(i => F.scores.has(String(i))).reduce((s, i) => s + r.s[i - 1], 0);
+                }),
+                borderColor: RAW[k].color, backgroundColor: RAW[k].color + '18', fill: true, tension: 0.4, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2.5, spanGaps: true
+            }));
+            mkChart('ov-trend-compare', { type: 'line', data: { labels: allDates.map(d => { const p = d.split('-'); return `${p[2]}/${p[1]}`; }), datasets: trendDS }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { font: { size: 12, weight: '700' }, padding: 14, boxWidth: 14, boxHeight: 14, usePointStyle: true } }, tooltip: { ...TCFG, mode: 'index', callbacks: { label: c => c.parsed.y !== null ? ` ${c.dataset.label}: ${c.parsed.y}` : ` ${c.dataset.label}: –` } } }, scales: { x: { grid: { color: 'rgba(144,202,249,0.2)' }, ticks: { maxRotation: 45, font: { size: 10 } } }, y: { grid: { color: 'rgba(144,202,249,0.2)' }, beginAtZero: true } } } });
+
+            // Grouped score
+            const scoreDS = csKeys.map(k => {
+                const dist = filteredScoreDist(k);
+                return { label: RAW[k].name, data: [1, 2, 3, 4, 5, 6].map(i => dist[i] || 0), backgroundColor: RAW[k].color, borderRadius: 5, borderSkipped: false };
+            });
+            mkChart('ov-grouped-score', { type: 'bar', data: { labels: SL, datasets: scoreDS }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { font: { size: 11, weight: '700' }, padding: 12, boxWidth: 12, boxHeight: 12 } }, tooltip: { ...TCFG } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 11 } } }, y: { grid: { color: 'rgba(144,202,249,0.2)' } } } } });
+
+            // Activity compare (stacked 100%)
+            const ACT_KEYS = ['Follow up', 'Pertanyaan', 'Dokumen', 'Closing', 'FINISH'];
+            const ACT_COLORS = ['#1565c0', '#0288d1', '#00838f', '#558b2f', '#f57c00'];
+            const actDS = ACT_KEYS.filter(a => F.acts.has(a)).map((a, i) => ({
+                label: a,
+                data: csKeys.map(k => {
+                    return getFiltered(k).reduce((s, d) => s + (d.a[a] || 0), 0);
+                }),
+                backgroundColor: ACT_COLORS[i], borderRadius: 6, borderSkipped: false, stack: 'total'
+            }));
+            mkChart('ov-act-compare', { type: 'bar', data: { labels: NAMES, datasets: actDS }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11, weight: '700' }, padding: 10, boxWidth: 12, boxHeight: 12 } }, tooltip: { ...TCFG, mode: 'index' } }, scales: { x: { stacked: true, grid: { display: false }, ticks: { font: { size: 12, weight: '700' } } }, y: { stacked: true, grid: { color: 'rgba(144,202,249,0.2)' } } } } });
+
+            // Radar
+            const radarDS = csKeys.map(k => {
+                const dist = filteredScoreDist(k);
+                const tot = Object.values(dist).reduce((a, b) => a + b, 0) || 1;
+                return { label: RAW[k].name, data: [1, 2, 3, 4, 5, 6].map(i => (dist[i] || 0) / tot * 100), borderColor: RAW[k].color, backgroundColor: RAW[k].color + '22', pointBackgroundColor: RAW[k].color, borderWidth: 2 };
+            });
+            mkChart('ov-radar', { type: 'radar', data: { labels: SL, datasets: radarDS }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11, weight: '700' }, padding: 10, boxWidth: 12, boxHeight: 12 } }, tooltip: { ...TCFG, callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.r.toFixed(1)}%` } } }, scales: { r: { grid: { color: 'rgba(144,202,249,0.3)' }, ticks: { backdropColor: 'transparent', font: { size: 9 } }, pointLabels: { font: { size: 11, weight: '700' }, color: '#3949ab' } } } } });
+
+            // Score table
+            const lbls = ['Pertanyaan', 'FU Awal', 'Proses Aktif', 'Dokumen', 'Hampir Selesai', 'Selesai'];
+            let th = '';
+            for (let i = 1; i <= 6; i++) {
+                if (!F.scores.has(String(i))) continue;
+                th += `<tr><td><span style="color:${SC[i - 1]};font-weight:800">S${i} – ${lbls[i - 1]}</span></td>`;
+                ['devi', 'julia', 'dewi'].forEach(k => {
+                    const dist = filteredScoreDist(k);
+                    th += `<td style="font-family:'Space Mono',monospace;color:${RAW[k].color};font-weight:700">${F.cs.has(k) ? (dist[i] || 0) : '—'}</td>`;
+                });
+                th += '</tr>';
+            }
+            document.getElementById('ov-score-table').innerHTML = th;
+        }
+
+        // ===================== RANKING TABLE =====================
+        function renderRankTable(csKeys) {
+            const allDates = [...new Set(csKeys.flatMap(k => getFiltered(k).map(d => d.d)))].sort();
+            let html = '';
+            const medals = ['🥇', '🥈', '🥉'];
+            allDates.forEach(date => {
+                const vals = csKeys.map(k => {
+                    const r = getFiltered(k).find(d => d.d === date);
+                    const tot = r ? [1, 2, 3, 4, 5, 6].filter(i => F.scores.has(String(i))).reduce((s, i) => s + r.s[i - 1], 0) : null;
+                    return { k, tot };
+                }).filter(v => v.tot !== null).sort((a, b) => b.tot - a.tot);
+
+                if (vals.length === 0) return;
+                const dp = date.split('-');
+                html += `<tr><td style="font-weight:700;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${dp[2]}/${dp[1]}/${dp[0]}</td>`;
+                [0, 1, 2].forEach(rank => {
+                    if (vals[rank]) {
+                        const v = vals[rank];
+                        html += `<td><span class="rank-badge"><span style="font-size:16px">${medals[rank]}</span><span style="color:${RAW[v.k].color}">${RAW[v.k].name}</span><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">(${v.tot})</span></span></td>`;
+                    } else { html += '<td style="color:var(--muted)">—</td>'; }
+                });
+                const gap = vals.length >= 2 ? vals[0].tot - vals[1].tot : '—';
+                html += `<td><span style="font-family:'Space Mono',monospace;font-weight:700;color:${gap > 10 ? '#c62828' : gap > 5 ? '#f57c00' : '#558b2f'}">+${gap}</span></td></tr>`;
+            });
+            document.getElementById('rank-tbody').innerHTML = html || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">Tidak ada data sesuai filter</td></tr>';
+        }
+
+        // ===================== WEEKLY SCORE TREND =====================
+        function renderWeeklyScore(csKeys) {
+            function getWeek(dateStr) {
+                const d = new Date(dateStr);
+                const jan1 = new Date(d.getFullYear(), 0, 1);
+                return Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+            }
+            const weekMap = {};
+            csKeys.forEach(k => {
+                getFiltered(k).forEach(d => {
+                    const wk = `W${getWeek(d.d)} (${d.d.slice(5, 7)}/${d.d.slice(0, 4)})`;
+                    if (!weekMap[wk]) weekMap[wk] = [0, 0, 0, 0, 0, 0];
+                    [1, 2, 3, 4, 5, 6].forEach((s, idx) => {
+                        if (F.scores.has(String(s))) weekMap[wk][idx] += d.s[idx];
+                    });
+                });
+            });
+            const weeks = Object.keys(weekMap).sort();
+            const wDS = [1, 2, 3, 4, 5, 6].filter(s => F.scores.has(String(s))).map((s, i) => ({
+                label: `Skor ${s}`,
+                data: weeks.map(w => weekMap[w][s - 1]),
+                borderColor: SC[s - 1], backgroundColor: SC[s - 1] + '33',
+                fill: false, tension: 0.4, pointRadius: 4, pointHoverRadius: 7, borderWidth: 2.5
+            }));
+            mkChart('ov-weekly-score', { type: 'line', data: { labels: weeks, datasets: wDS }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { font: { size: 11, weight: '700' }, padding: 12, boxWidth: 12, boxHeight: 12, usePointStyle: true } }, tooltip: { ...TCFG, mode: 'index' } }, scales: { x: { grid: { color: 'rgba(144,202,249,0.2)' }, ticks: { font: { size: 11 } } }, y: { grid: { color: 'rgba(144,202,249,0.2)' }, beginAtZero: true } } } });
+        }
+
+        // ===================== HEATMAP =====================
+        function renderHeatmap(csKeys) {
+            const dayTotals = {};
+            csKeys.forEach(k => {
+                getFiltered(k).forEach(d => {
+                    const tot = [1, 2, 3, 4, 5, 6].filter(i => F.scores.has(String(i))).reduce((s, i) => s + d.s[i - 1], 0);
+                    dayTotals[d.d] = (dayTotals[d.d] || 0) + tot;
+                });
+            });
+            const dates = Object.keys(dayTotals).sort();
+            if (!dates.length) { document.getElementById('heatmap-container').innerHTML = '<div style="padding:20px;color:var(--muted);font-weight:700">Tidak ada data</div>'; return; }
+
+            const maxV = Math.max(...Object.values(dayTotals));
+            function heatColor(v) {
+                const p = v / maxV;
+                if (p < 0.2) return '#e3f2fd';
+                if (p < 0.4) return '#90caf9';
+                if (p < 0.6) return '#42a5f5';
+                if (p < 0.8) return '#1976d2';
+                return '#0d47a1';
+            }
+            function textColor(v) {
+                return v / maxV > 0.5 ? 'white' : '#1a237e';
+            }
+
+            // Build by week
+            const DAYS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+            const firstDate = new Date(dates[0]);
+            const lastDate = new Date(dates[dates.length - 1]);
+
+            // Build weeks array
+            const start = new Date(firstDate);
+            start.setDate(start.getDate() - start.getDay());
+            const weeks = [];
+            let cur = new Date(start);
+            while (cur <= lastDate) {
+                const week = [];
+                for (let d = 0; d < 7; d++) {
+                    week.push(new Date(cur));
+                    cur.setDate(cur.getDate() + 1);
+                }
+                weeks.push(week);
+            }
+
+            let html = `<div style="display:flex;gap:3px;align-items:flex-start">`;
+            // Day labels
+            html += `<div style="display:flex;flex-direction:column;gap:3px;padding-top:22px">`;
+            DAYS.forEach(d => html += `<div class="hm-header" style="height:28px;line-height:28px;width:22px">${d}</div>`);
+            html += '</div>';
+
+            // Weeks
+            weeks.forEach(week => {
+                html += `<div style="display:flex;flex-direction:column;gap:3px">`;
+                const firstDay = week[0];
+                const mon = firstDay.toLocaleString('id-ID', { month: 'short' });
+                html += `<div class="hm-header" style="height:18px;font-size:8px;white-space:nowrap">${mon}</div>`;
+                week.forEach(day => {
+                    const ds = day.toISOString().split('T')[0];
+                    const val = dayTotals[ds] || 0;
+                    const inRange = day >= firstDate && day <= lastDate;
+                    if (inRange && val > 0) {
+                        html += `<div class="hm-cell" style="background:${heatColor(val)};color:${textColor(val)}" title="${ds}: ${val} klien">${val}</div>`;
+                    } else if (inRange) {
+                        html += `<div class="hm-cell" style="background:rgba(144,202,249,0.15);color:var(--muted)" title="${ds}: libur/tidak ada data">·</div>`;
+                    } else {
+                        html += `<div class="hm-cell" style="background:transparent"></div>`;
+                    }
+                });
+                html += '</div>';
+            });
+            html += '</div>';
+            document.getElementById('heatmap-container').innerHTML = html;
+        }
+
+        // ===================== INDIVIDUAL TABS =====================
+        function buildIndividual(key, color) {
+            const cs = RAW[key];
+            const dates = cs.daily.map(d => { const p = d.d.split('-'); return `${p[2]}/${p[1]}`; });
+
+            // Trend
+            mkChart(`${key}-trend`, { type: 'line', data: { labels: dates, datasets: [{ label: 'Klien', data: cs.daily.map(d => d.t), borderColor: color, backgroundColor: color + '18', fill: true, tension: 0.4, pointBackgroundColor: color, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2.5 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { ...TCFG, callbacks: { label: c => ` ${c.parsed.y} klien` } } }, scales: { x: { grid: { color: 'rgba(144,202,249,0.2)' }, ticks: { maxRotation: 45, font: { size: 10 } } }, y: { grid: { color: 'rgba(144,202,249,0.2)' }, beginAtZero: true } } } });
+
+            // Stacked
+            mkChart(`${key}-stacked`, { type: 'bar', data: { labels: dates, datasets: SC.map((c, i) => ({ label: `Skor ${i + 1}`, data: cs.daily.map(d => d.s[i]), backgroundColor: c, stack: 'total', borderWidth: 0 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { ...TCFG, mode: 'index' } }, scales: { x: { stacked: true, grid: { color: 'rgba(144,202,249,0.1)' }, ticks: { maxRotation: 45, font: { size: 10 } } }, y: { stacked: true, grid: { color: 'rgba(144,202,249,0.2)' } } } } });
+
+            // Donut
+            const vals = [1, 2, 3, 4, 5, 6].map(i => cs.score_dist[i]);
+            mkChart(`${key}-donut`, { type: 'doughnut', data: { labels: SLL, datasets: [{ data: vals, backgroundColor: SC, borderColor: 'white', borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 8, boxWidth: 11, boxHeight: 11, color: '#5c6bc0' } }, tooltip: { ...TCFG, callbacks: { label: c => ` ${c.label.split('–')[0]}: ${c.parsed} (${((c.parsed / cs.total) * 100).toFixed(1)}%)` } } } } });
+
+            // Table
+            const total = cs.total, days = cs.days;
+            let th = '<thead><tr><th>Skor</th><th>Keterangan</th><th>Total</th><th>Avg/Hari</th><th>%</th></tr></thead><tbody>';
+            for (let i = 1; i <= 6; i++) {
+                const t = cs.score_dist[i], avg = (t / days).toFixed(1), pct = ((t / total) * 100).toFixed(1);
+                const bw = Math.round((t / Math.max(...Object.values(cs.score_dist))) * 100);
+                th += `<tr><td><span style="color:${SC[i - 1]};font-weight:800;font-family:'Space Mono',monospace">S${i}</span></td><td style="color:#5c6bc0;font-weight:600;font-size:11px">${SINFO[i - 1]}</td><td style="font-family:'Space Mono',monospace;color:#1a237e;font-weight:700">${t}</td><td style="font-size:11px;font-weight:700;color:#3949ab">${avg}</td><td><div style="display:flex;align-items:center;gap:6px"><div style="background:rgba(144,202,249,0.3);border-radius:4px;height:7px;width:55px"><div style="background:${SC[i - 1]};width:${bw}%;height:7px;border-radius:4px;max-width:55px"></div></div><span style="font-size:11px;font-weight:800;color:${SC[i - 1]}">${pct}%</span></div></td></tr>`;
+            }
+            th += '</tbody>';
+            document.getElementById(`${key}-table`).innerHTML = th;
+        }
+
+        // ===================== GENERATE INDIVIDUAL HTML (append DOM first) =====================
+        ['devi', 'julia', 'dewi'].forEach(key => {
+            const cs = RAW[key];
+            const maxT = Math.max(...cs.daily.map(d => d.t));
+            const maxDay = cs.daily.find(d => d.t === maxT);
+            const maxDayStr = maxDay ? maxDay.d.split('-').reverse().join('/') : '—';
+            const topScore = Object.entries(cs.score_dist).sort((a, b) => b[1] - a[1])[0];
+            const cNum = key === 'devi' ? 1 : key === 'julia' ? 2 : 3;
+            const icon = key === 'devi' ? '🔵' : key === 'julia' ? '🩵' : '🟦';
+
+            const kpis = [
+                { l: 'Total Klien', v: cs.total.toLocaleString('id-ID'), sub: `Selama ${cs.days} hari kerja`, c: `c${cNum}` },
+                { l: 'Rata-rata / Hari', v: cs.avg, sub: 'klien dibalas per hari', c: `c${cNum}` },
+                { l: 'Hari Tersibuk', v: maxT, sub: maxDayStr, c: 'c4' },
+                { l: `Skor ${topScore[0]} Terbanyak`, v: topScore[1], sub: SINFO[topScore[0] - 1], c: 'c5' },
+            ];
+
+            const tab = document.getElementById('tab-overview').parentNode;
+            const div = document.createElement('div');
+            div.id = `tab-${key}`;
+            div.className = 'tab-content';
+            div.innerHTML = `
+  <div class="section" style="padding-top:22px">
+    <div class="section-title">${icon} Detail ${cs.name}</div>
+    <div class="kpi-row">
+      ${kpis.map(k => `<div class="kpi ${k.c}"><div class="kpi-label">${k.l}</div><div class="kpi-value" style="color:${cs.color}">${k.v}</div><div class="kpi-sub">${k.sub}</div></div>`).join('')}
+    </div>
+  </div>
+  <div class="charts-grid">
+    <div class="chart-card full"><div class="chart-title">Tren Harian ${cs.name}</div><div class="chart-sub">Jumlah klien yang dibalas setiap hari</div><div class="chart-wrap h280"><canvas id="${key}-trend"></canvas></div></div>
+    <div class="chart-card full">
+      <div class="chart-title">Distribusi Skor per Hari — ${cs.name} (Stacked)</div>
+      <div class="chart-sub">Komposisi skor klien setiap harinya</div>
+      <div class="score-legend">${SL.map((l, i) => `<div class="score-pill"><div class="score-dot" style="background:${SC[i]}"></div>${l}</div>`).join('')}</div>
+      <div class="chart-wrap h280"><canvas id="${key}-stacked"></canvas></div>
+    </div>
+    <div class="chart-card"><div class="chart-title">Total per Skor — ${cs.name}</div><div class="chart-sub">Distribusi keseluruhan skor klien</div><div class="chart-wrap h240"><canvas id="${key}-donut"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Rekap Skor Harian — ${cs.name}</div><div class="chart-sub">Total, rata-rata, dan proporsi tiap skor</div><table class="comp-table" id="${key}-table"></table></div>
+  </div>
+  <div style="height:40px"></div>`;
+            // Append to DOM FIRST so canvas elements exist
+            tab.appendChild(div);
+        });
+
+        // ===================== INIT — charts built AFTER all DOM is ready =====================
+        applyFilters();
+        buildIndividual('devi', '#1565c0');
+        buildIndividual('julia', '#0288d1');
+        buildIndividual('dewi', '#00838f');
+
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
