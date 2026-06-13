@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Analytics - Akses Legal</title>
+    <title>Executive Comparison Dashboard - Akses Legal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- SheetJS untuk membaca file Excel -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
@@ -83,25 +83,17 @@
             padding: 1rem;
             animation: fadeInBg 0.2s ease;
         }
-
-        #uploadModal.open {
-            display: flex;
-        }
+        #uploadModal.open { display: flex; }
 
         @keyframes fadeInBg {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to   { opacity: 1; }
         }
 
         .modal-box {
             background: white;
             border-radius: 1.25rem;
-            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 60px -10px rgba(0,0,0,0.25);
             width: 100%;
             max-width: 560px;
             padding: 2rem;
@@ -110,15 +102,8 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(32px) scale(0.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(32px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0)   scale(1); }
         }
 
         .modal-close {
@@ -138,11 +123,7 @@
             justify-content: center;
             transition: all 0.15s ease;
         }
-
-        .modal-close:hover {
-            background: #e2e8f0;
-            color: #1e293b;
-        }
+        .modal-close:hover { background: #e2e8f0; color: #1e293b; }
 
         #dropZone {
             border: 2px dashed #c7d2fe;
@@ -153,19 +134,17 @@
             background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
             transition: all 0.25s ease;
         }
-
         #dropZone:hover,
         #dropZone.drag-over {
             border-color: #4f46e5;
             background: #eef2ff;
             transform: translateY(-2px);
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            box-shadow: 0 0 0 4px rgba(79,70,229,0.1);
         }
-
         #dropZone.drag-over {
             border-color: #10b981;
             background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+            box-shadow: 0 0 0 4px rgba(16,185,129,0.12);
         }
 
         .drop-icon {
@@ -174,17 +153,9 @@
             margin-bottom: 0.75rem;
             animation: float 3s ease-in-out infinite;
         }
-
         @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-7px);
-            }
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-7px); }
         }
 
         /* Progress bar */
@@ -192,7 +163,6 @@
             display: none;
             margin-top: 1rem;
         }
-
         .progress-bar-bg {
             height: 6px;
             background: #e2e8f0;
@@ -200,7 +170,6 @@
             overflow: hidden;
             margin-top: 0.4rem;
         }
-
         .progress-bar-fill {
             height: 100%;
             background: linear-gradient(90deg, #4f46e5, #7c3aed);
@@ -220,24 +189,9 @@
             align-items: center;
             gap: 0.4rem;
         }
-
-        .status-success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-        }
-
-        .status-error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-        }
-
-        .status-info {
-            background: #e0e7ff;
-            color: #3730a3;
-            border: 1px solid #c7d2fe;
-        }
+        .status-success { background:#d1fae5; color:#065f46; border:1px solid #a7f3d0; }
+        .status-error   { background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; }
+        .status-info    { background:#e0e7ff; color:#3730a3; border:1px solid #c7d2fe; }
 
         /* Toast */
         #successToast {
@@ -252,22 +206,14 @@
             border-radius: 0.6rem;
             font-size: 0.82rem;
             font-weight: 600;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
             align-items: center;
             gap: 0.5rem;
             animation: toastIn 0.3s ease;
         }
-
         @keyframes toastIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity:0; transform:translateY(12px); }
+            to   { opacity:1; transform:translateY(0); }
         }
 
         /* Data source badge */
@@ -294,7 +240,7 @@
         <div>
             <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
                 <i class="fa fa-chart-line text-indigo-600"></i>
-                CS Analytics Dashboard
+                Executive CS Analytics Dashboard
             </h1>
             <p class="text-sm text-slate-500 mt-1">Akses Legal Indonesia &bull; Laporan Detail Performa Setiap Agen</p>
         </div>
@@ -316,7 +262,7 @@
                 <i class="fa fa-circle-check"></i>
                 <span id="dataSourceLabel">Data dari file</span>
             </div>
-
+         
             <button onclick="window.print()"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg shadow-md font-semibold text-sm transition-all flex items-center gap-2">
                 <i class="fa fa-print"></i>
@@ -643,31 +589,25 @@
 
             <div style="margin-bottom:1.25rem;">
                 <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.3rem;">
-                    <div
-                        style="width:36px;height:36px;background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:0.6rem;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">
-                        📊</div>
+                    <div style="width:36px;height:36px;background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:0.6rem;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">📊</div>
                     <h2 style="font-size:1.1rem;font-weight:800;color:#1e293b;">Upload Data Laporan Excel</h2>
                 </div>
-                <p style="font-size:0.78rem;color:#64748b;line-height:1.6;">Upload file <strong>.xlsx</strong> hasil
-                    export — dashboard akan langsung ter-update otomatis.</p>
+                <p style="font-size:0.78rem;color:#64748b;line-height:1.6;">Upload file <strong>.xlsx</strong> hasil export — dashboard akan langsung ter-update otomatis.</p>
             </div>
 
             <!-- Drop Zone -->
             <div id="dropZone" onclick="document.getElementById('fileInputModal').click()">
                 <span class="drop-icon">📂</span>
-                <p style="font-size:1rem;font-weight:700;color:#1e293b;margin-bottom:0.35rem;">Seret & Lepas file ke
-                    sini</p>
-                <p style="font-size:0.78rem;color:#64748b;margin-bottom:1.1rem;">atau klik untuk memilih file dari
-                    komputer</p>
-                <button onclick="event.stopPropagation(); document.getElementById('fileInputModal').click();"
+                <p style="font-size:1rem;font-weight:700;color:#1e293b;margin-bottom:0.35rem;">Seret & Lepas file ke sini</p>
+                <p style="font-size:0.78rem;color:#64748b;margin-bottom:1.1rem;">atau klik untuk memilih file dari komputer</p>
+                <button
+                    onclick="event.stopPropagation(); document.getElementById('fileInputModal').click();"
                     style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.55rem 1.2rem;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:white;border:none;border-radius:0.5rem;font-size:0.82rem;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(79,70,229,0.3);">
                     🗂️ Pilih File Excel
                 </button>
                 <div style="margin-top:0.75rem;display:flex;justify-content:center;gap:0.4rem;">
-                    <span
-                        style="padding:0.15rem 0.5rem;background:white;border:1px solid #e2e8f0;border-radius:999px;font-size:0.7rem;font-weight:600;color:#64748b;">.xlsx</span>
-                    <span
-                        style="padding:0.15rem 0.5rem;background:white;border:1px solid #e2e8f0;border-radius:999px;font-size:0.7rem;font-weight:600;color:#64748b;">.xls</span>
+                    <span style="padding:0.15rem 0.5rem;background:white;border:1px solid #e2e8f0;border-radius:999px;font-size:0.7rem;font-weight:600;color:#64748b;">.xlsx</span>
+                    <span style="padding:0.15rem 0.5rem;background:white;border:1px solid #e2e8f0;border-radius:999px;font-size:0.7rem;font-weight:600;color:#64748b;">.xls</span>
                 </div>
             </div>
             <input type="file" id="fileInputModal" accept=".xlsx,.xls" style="display:none;" />
@@ -1199,12 +1139,12 @@
         }
 
         // Close on backdrop click
-        document.getElementById('uploadModal').addEventListener('click', function (e) {
+        document.getElementById('uploadModal').addEventListener('click', function(e) {
             if (e.target === this) closeUploadModal();
         });
 
         // Close on Escape key
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeUploadModal();
         });
 
@@ -1249,7 +1189,7 @@
             showProgress(true, 'Membaca file Excel...', 15);
 
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 try {
                     showProgress(true, 'Mengurai sheet...', 35);
                     const data = new Uint8Array(e.target.result);
@@ -1316,20 +1256,20 @@
         // ---- Excel Parsing ----
         function parseWorkbook(wb) {
             const sheets = wb.SheetNames;
-            const chatSheetName = sheets.find(s => /chat|percakapan|conversation|report/i.test(s));
+            const chatSheetName   = sheets.find(s => /chat|percakapan|conversation|report/i.test(s));
             const invoiceSheetName = sheets.find(s => /invoice|inv|tagihan/i.test(s));
-            const agentSheetName = sheets.find(s => /agent|agen|online|assignee/i.test(s));
+            const agentSheetName  = sheets.find(s => /agent|agen|online|assignee/i.test(s));
 
             const getRows = (name) => name ? XLSX.utils.sheet_to_json(wb.Sheets[name], { defval: '' }) : [];
 
-            const chatRows = chatSheetName ? getRows(chatSheetName) : XLSX.utils.sheet_to_json(wb.Sheets[sheets[0]], { defval: '' });
+            const chatRows    = chatSheetName ? getRows(chatSheetName) : XLSX.utils.sheet_to_json(wb.Sheets[sheets[0]], { defval: '' });
             const invoiceRows = invoiceSheetName ? getRows(invoiceSheetName) : [];
-            const agentRows = agentSheetName ? getRows(agentSheetName) : [];
+            const agentRows   = agentSheetName   ? getRows(agentSheetName)   : [];
 
             function findKey(row, candidates) {
                 const keys = Object.keys(row);
                 for (const c of candidates) {
-                    const found = keys.find(k => k.toLowerCase().replace(/[\s_\-]/g, '').includes(c.toLowerCase().replace(/[\s_\-]/g, '')));
+                    const found = keys.find(k => k.toLowerCase().replace(/[\s_\-]/g,'').includes(c.toLowerCase().replace(/[\s_\-]/g,'')));
                     if (found !== undefined) return found;
                 }
                 return null;
@@ -1341,7 +1281,7 @@
                 const v = row[k];
                 if (v === '' || v == null) return def;
                 if (typeof v === 'number') return v;
-                const p = parseFloat(String(v).replace(/[^0-9.\-]/g, ''));
+                const p = parseFloat(String(v).replace(/[^0-9.\-]/g,''));
                 return isNaN(p) ? def : p;
             }
 
@@ -1359,51 +1299,51 @@
                     return js.toISOString().split('T')[0];
                 }
                 const s = String(d).trim();
-                if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.substring(0, 10);
+                if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.substring(0,10);
                 const m = s.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
-                if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+                if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
                 const d2 = new Date(s);
                 return isNaN(d2) ? null : d2.toISOString().split('T')[0];
             }
 
             const chatMap = {};
             chatRows.forEach(row => {
-                const date = fmtDate(getStr(row, ['Date', 'Tanggal', 'date'], '') || row[Object.keys(row)[0]]);
+                const date = fmtDate(getStr(row, ['Date','Tanggal','date'], '') || row[Object.keys(row)[0]]);
                 if (!date) return;
-                const agentId = getStr(row, ['Agent', 'Assignee', 'Email', 'CS', 'agen', 'email'], '').toLowerCase();
+                const agentId = getStr(row, ['Agent','Assignee','Email','CS','agen','email'], '').toLowerCase();
                 if (!agentId) return;
                 const key = `${date}__${agentId}`;
-                if (!chatMap[key]) chatMap[key] = { date, agentId, newChat: 0, activeChat: 0, assigned: 0, responseTime: 0, rtCount: 0, invoices: 0, nominal: 0, totalDuration: 0, totalMessages: 0, inv_paid: 0, inv_unpaid: 0, inv_expired: 0 };
+                if (!chatMap[key]) chatMap[key] = { date, agentId, newChat:0, activeChat:0, assigned:0, responseTime:0, rtCount:0, invoices:0, nominal:0, totalDuration:0, totalMessages:0, inv_paid:0, inv_unpaid:0, inv_expired:0 };
                 const r = chatMap[key];
-                r.newChat += getVal(row, ['New Conversations', 'newChat', 'chat baru', 'Percakapan Baru', 'new_chat']);
-                r.activeChat += getVal(row, ['Open Conversations', 'activeChat', 'chat aktif', 'Percakapan Aktif', 'open_conv']);
-                r.assigned += getVal(row, ['Assigned', 'Dialokasikan', 'assigned']);
-                const rt = getVal(row, ['Avg First Response Time', 'First Response', 'ResponseTime', 'waktu respon', 'Avg Response Time', 'response time'], 0);
-                if (rt > 0) { r.responseTime += rt > 1440 ? rt / 60 : rt; r.rtCount++; }
-                const dur = getVal(row, ['Avg Duration', 'Duration', 'durasi', 'totalDuration', 'Avg Chat Duration', 'total_duration'], 0);
-                r.totalDuration += dur > 600 ? dur / 60 : dur;
-                r.totalMessages += getVal(row, ['Messages Sent', 'messages', 'pesan', 'Outgoing Messages', 'msg_sent', 'totalMessages'], 0);
+                r.newChat    += getVal(row, ['New Conversations','newChat','chat baru','Percakapan Baru','new_chat']);
+                r.activeChat += getVal(row, ['Open Conversations','activeChat','chat aktif','Percakapan Aktif','open_conv']);
+                r.assigned   += getVal(row, ['Assigned','Dialokasikan','assigned']);
+                const rt = getVal(row, ['Avg First Response Time','First Response','ResponseTime','waktu respon','Avg Response Time','response time'], 0);
+                if (rt > 0) { r.responseTime += rt > 1440 ? rt/60 : rt; r.rtCount++; }
+                const dur = getVal(row, ['Avg Duration','Duration','durasi','totalDuration','Avg Chat Duration','total_duration'], 0);
+                r.totalDuration += dur > 600 ? dur/60 : dur;
+                r.totalMessages += getVal(row, ['Messages Sent','messages','pesan','Outgoing Messages','msg_sent','totalMessages'], 0);
                 // Try invoice columns in same sheet
-                r.invoices += getVal(row, ['Invoice Count', 'Invoices', 'invoice', 'Total Invoice'], 0);
-                r.nominal += getVal(row, ['Invoice Amount', 'Nominal', 'Revenue', 'Pendapatan', 'Amount'], 0);
-                r.inv_paid += getVal(row, ['Paid', 'inv_paid', 'Lunas'], 0);
-                r.inv_unpaid += getVal(row, ['Unpaid', 'inv_unpaid', 'Belum Bayar'], 0);
-                r.inv_expired += getVal(row, ['Expired', 'inv_expired', 'Kadaluarsa', 'Kedaluwarsa'], 0);
+                r.invoices  += getVal(row, ['Invoice Count','Invoices','invoice','Total Invoice'], 0);
+                r.nominal   += getVal(row, ['Invoice Amount','Nominal','Revenue','Pendapatan','Amount'], 0);
+                r.inv_paid  += getVal(row, ['Paid','inv_paid','Lunas'], 0);
+                r.inv_unpaid+= getVal(row, ['Unpaid','inv_unpaid','Belum Bayar'], 0);
+                r.inv_expired+=getVal(row, ['Expired','inv_expired','Kadaluarsa','Kedaluwarsa'], 0);
             });
 
             invoiceRows.forEach(row => {
-                const date = fmtDate(getStr(row, ['Date', 'Tanggal', 'date', 'Created At', 'created_at'], ''));
+                const date = fmtDate(getStr(row, ['Date','Tanggal','date','Created At','created_at'], ''));
                 if (!date) return;
-                const agentId = getStr(row, ['Agent', 'Assignee', 'CS', 'Email', 'created by'], '').toLowerCase();
+                const agentId = getStr(row, ['Agent','Assignee','CS','Email','created by'], '').toLowerCase();
                 if (!agentId) return;
                 const key = `${date}__${agentId}`;
-                if (!chatMap[key]) chatMap[key] = { date, agentId, newChat: 0, activeChat: 0, assigned: 0, responseTime: 0, rtCount: 0, invoices: 0, nominal: 0, totalDuration: 0, totalMessages: 0, inv_paid: 0, inv_unpaid: 0, inv_expired: 0 };
+                if (!chatMap[key]) chatMap[key] = { date, agentId, newChat:0, activeChat:0, assigned:0, responseTime:0, rtCount:0, invoices:0, nominal:0, totalDuration:0, totalMessages:0, inv_paid:0, inv_unpaid:0, inv_expired:0 };
                 const r = chatMap[key];
-                const count = getVal(row, ['Count', 'Total', 'Jumlah', 'qty', 'num', 'Banyak'], 0);
-                const amount = getVal(row, ['Nominal', 'Amount', 'Value', 'Nilai', 'total_nominal', 'Grand Total', 'Rupiah'], 0);
-                const status = getStr(row, ['Status', 'status'], '').toLowerCase();
+                const count  = getVal(row, ['Count','Total','Jumlah','qty','num','Banyak'], 0);
+                const amount = getVal(row, ['Nominal','Amount','Value','Nilai','total_nominal','Grand Total','Rupiah'], 0);
+                const status = getStr(row, ['Status','status'], '').toLowerCase();
                 r.invoices += count || (amount > 0 ? 1 : 0);
-                r.nominal += amount;
+                r.nominal  += amount;
                 if (status.includes('paid') && !status.includes('unpaid')) r.inv_paid++;
                 else if (status.includes('unpaid') || status.includes('belum')) r.inv_unpaid++;
                 else if (status.includes('expired') || status.includes('kadaluarsa') || status.includes('kedaluwarsa')) r.inv_expired++;
@@ -1423,18 +1363,18 @@
                 inv_paid: Math.round(r.inv_paid),
                 inv_unpaid: Math.round(r.inv_unpaid),
                 inv_expired: Math.round(r.inv_expired)
-            })).sort((a, b) => a.date.localeCompare(b.date) || a.agentId.localeCompare(b.agentId));
+            })).sort((a,b) => a.date.localeCompare(b.date) || a.agentId.localeCompare(b.agentId));
 
             const parsedOnline = {};
             agentRows.forEach(row => {
-                const id = getStr(row, ['Agent', 'Email', 'CS', 'agen', 'email'], '').toLowerCase();
-                const h = getVal(row, ['Online Hours', 'Jam Online', 'online_hours', 'Hours', 'Jam Kerja', 'Waktu Online'], 0);
+                const id = getStr(row, ['Agent','Email','CS','agen','email'], '').toLowerCase();
+                const h  = getVal(row, ['Online Hours','Jam Online','online_hours','Hours','Jam Kerja','Waktu Online'], 0);
                 if (id) parsedOnline[id] = parseFloat(h.toFixed(2));
             });
             if (Object.keys(parsedOnline).length === 0) {
                 chatRows.forEach(row => {
-                    const id = getStr(row, ['Agent', 'Assignee', 'Email'], '').toLowerCase();
-                    const h = getVal(row, ['Online Hours', 'Jam Online', 'online_hours'], 0);
+                    const id = getStr(row, ['Agent','Assignee','Email'], '').toLowerCase();
+                    const h  = getVal(row, ['Online Hours','Jam Online','online_hours'], 0);
                     if (id && h > 0) parsedOnline[id] = (parsedOnline[id] || 0) + h;
                 });
             }

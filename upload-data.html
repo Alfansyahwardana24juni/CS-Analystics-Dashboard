@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Data — CS Analytics Dashboard | Akses Legal</title>
+    <meta name="description" content="Upload file laporan Excel untuk menghasilkan data siap pakai bagi Executive CS Analytics Dashboard Akses Legal.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- SheetJS for Excel parsing -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --color-bg: #f0f4ff;
+            --color-surface: #ffffff;
+            --color-primary: #4f46e5;
+            --color-primary-light: #e0e7ff;
+            --color-primary-dark: #3730a3;
+            --color-success: #10b981;
+            --color-success-light: #d1fae5;
+            --color-warning: #f59e0b;
+            --color-warning-light: #fef3c7;
+            --color-error: #ef4444;
+            --color-error-light: #fee2e2;
+            --color-text: #1e293b;
+            --color-text-muted: #64748b;
+            --color-border: #e2e8f0;
+            --radius-lg: 1.25rem;
+            --radius-md: 0.75rem;
+            --radius-sm: 0.5rem;
+            --shadow-card: 0 4px 24px -4px rgba(79, 70, 229, 0.08), 0 2px 8px -2px rgba(0,0,0,0.04);
+            --shadow-glow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--color-bg);
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(79, 70, 229, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
+            min-height: 100vh;
+            color: var(--color-text);
+            padding: 2rem 1rem;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            max-width: 900px;
+            margin: 0 auto 2.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--color-primary), #7c3aed);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-text);
+            letter-spacing: -0.02em;
+        }
+
+        .header-title p {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .header-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            color: var(--color-primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-card);
+        }
+
+        .header-nav a:hover {
+            background: var(--color-primary-light);
+            border-color: var(--color-primary);
+            transform: translateY(-1px);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--color-border);
+            padding: 2rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.85rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .card-title .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .icon-indigo { background: var(--color-primary-light); }
+        .icon-green  { background: var(--color-success-light); }
+        .icon-amber  { background: var(--color-warning-light); }
+
+        /* ===== UPLOAD ZONE ===== */
+        #dropZone {
+            border: 2px dashed #c7d2fe;
+            border-radius: var(--radius-lg);
+            padding: 3.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #dropZone::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(79,70,229,0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #dropZone:hover,
+        #dropZone.drag-over {
+            border-color: var(--color-primary);
+            background: #eef2ff;
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        #dropZone:hover::before,
+        #dropZone.drag-over::before {
+            opacity: 1;
+        }
+
+        #dropZone.drag-over {
+            border-color: var(--color-success);
+            background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+        }
+
+        .drop-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .drop-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.4rem;
+        }
+
+        .drop-subtitle {
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .btn-upload {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, var(--color-primary), #7c3aed);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-upload:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        #fileInput { display: none; }
+
+        .file-types {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .file-badge {
+            padding: 0.2rem 0.6rem;
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+        }
+
+        /* ===== STATUS BADGE ===== */
+        #uploadStatus {
+            display: none;
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-success {
+            background: var(--color-success-light);
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .status-error {
+            background: var(--color-error-light);
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .status-info {
+            background: var(--color-primary-light);
+            color: #3730a3;
+            border: 1px solid #c7d2fe;
+        }
+
+        /* ===== SHEETS SCHEMA ===== */
+        .sheets-guide {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 0;
+        }
+
+        .sheet-card {
+            background: #fafafa;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 1.1rem;
+        }
+
+        .sheet-label {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .label-chat  { background: #dbeafe; color: #1e40af; }
+        .label-inv   { background: #fce7f3; color: #9d174d; }
+        .label-agent { background: #d1fae5; color: #065f46; }
+
+        .sheet-card h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.4rem;
+        }
+
+        .sheet-card p {
+            font-size: 0.76rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        .col-list {
+            list-style: none;
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .col-list li {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .col-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        code {
+            background: #f1f5f9;
+            border: 1px solid var(--color-border);
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #7c3aed;
+        }
+
+        /* ===== PREVIEW TABLE ===== */
+        #previewSection { display: none; }
+
+        .preview-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            text-align: center;
+        }
+
+        .stat-box .val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
+        }
+
+        .stat-box .lbl {
+            font-size: 0.72rem;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+        }
+
+        thead tr {
+            background: #f8fafc;
+        }
+
+        thead th {
+            padding: 0.65rem 0.85rem;
+            text-align: left;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--color-text-muted);
+            border-bottom: 1px solid var(--color-border);
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f8fafc;
+            transition: background 0.15s ease;
+        }
+
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: #f8faff; }
+
+        tbody td {
+            padding: 0.55rem 0.85rem;
+            color: var(--color-text);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .td-right { text-align: right; }
+        .td-center { text-align: center; }
+
+        .badge-agent {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+        }
+
+        /* ===== OUTPUT SECTION ===== */
+        #outputSection { display: none; }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .tab-btn {
+            padding: 0.45rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            background: white;
+            color: var(--color-text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+        }
+
+        .tab-btn:not(.active):hover {
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .output-area {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.73rem;
+            line-height: 1.65;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .output-area::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        .output-area::-webkit-scrollbar-track { background: #1e293b; }
+        .output-area::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+
+        .kw-key    { color: #7dd3fc; }
+        .kw-str    { color: #86efac; }
+        .kw-num    { color: #fbbf24; }
+        .kw-bool   { color: #f472b6; }
+        .kw-null   { color: #94a3b8; }
+
+        .action-bar {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.1rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), #7c3aed);
+            color: white;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--color-success), #059669);
+            color: white;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        /* ===== COPY FEEDBACK ===== */
+        .copy-toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #0f172a;
+            color: #86efac;
+            padding: 0.65rem 1.2rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            gap: 0.4rem;
+            animation: toastIn 0.3s ease;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== INSTRUCTION STEPS ===== */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+        }
+
+        .step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), #7c3aed);
+            color: white;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step-body {
+            flex: 1;
+        }
+
+        .step-body strong {
+            font-size: 0.85rem;
+            color: var(--color-text);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .step-body span {
+            font-size: 0.78rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-wrap {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .progress-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .progress-bar-bg {
+            height: 6px;
+            background: var(--color-border);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary), #7c3aed);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            body { padding: 1rem 0.75rem; }
+            .card { padding: 1.25rem; }
+            .header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-brand">
+            <div class="header-icon">📊</div>
+            <div class="header-title">
+                <h1>Upload Data Laporan</h1>
+                <p>CS Analytics Dashboard • Akses Legal Indonesia</p>
+            </div>
+        </div>
+        <div class="header-nav">
+            <a href="dashboard-direct-boss.html" id="dashboardLink">
+                ← Ke Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- STEP 1: UPLOAD -->
+        <div class="card">
+            <div class="card-title">
+                <div class="icon icon-indigo">📁</div>
+                <span>Langkah 1 — Upload File Laporan Excel</span>
+            </div>
+
+            <div id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <span class="drop-icon">📂</span>
+                <p class="drop-title">Seret & Lepas file Excel ke sini</p>
+                <p class="drop-subtitle">
+                    Atau klik tombol di bawah untuk memilih file dari komputer Anda.<br>
+                    Format yang didukung: <strong>.xlsx</strong> dan <strong>.xls</strong>
+                </p>
+                <button class="btn-upload" onclick="event.stopPropagation(); document.getElementById('fileInput').click();">
+                    🗂️ Pilih File Excel
+                </button>
+                <div class="file-types">
+                    <span class="file-badge">.xlsx</span>
+                    <span class="file-badge">.xls</span>
+                </div>
+            </div>
+
+            <input type="file" id="fileInput" accept=".xlsx,.xls" />
+
+            <div id="uploadStatus"></div>
+
+            <div class="progress-wrap" id="progressWrap">
+                <div class="progress-label" id="progressLabel">Memproses data...</div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANDUAN FORMAT -->
+        <div class="card">
+            <div class="card-title">
+                <div class="icon icon-amber">📋</div>
+                <span>Format Sheet yang Diharapkan</span>
+            </div>
+            <p style="font-size:0.8rem; color:var(--color-text-muted); margin-bottom:1rem; line-height:1.7;">
+                Sistem otomatis mendeteksi kolom dari nama sheet. Berikut format kolom yang dikenali dari file <strong>report-*.xlsx</strong>:
+            </p>
+            <div class="sheets-guide">
+                <div class="sheet-card">
+                    <span class="sheet-label label-chat">Sheet: Chat / Chats</span>
+                    <h4>Data Percakapan</h4>
+                    <p>Berisi data sesi chat per agen per hari.</p>
+                    <ul class="col-list">
+                        <li><code>Date</code> — Tanggal (YYYY-MM-DD)</li>
+                        <li><code>Agent</code> / <code>Assignee</code> — Email agen</li>
+                        <li><code>New Conversations</code> — Chat baru</li>
+                        <li><code>Open Conversations</code> — Chat aktif</li>
+                        <li><code>Avg First Response Time</code> — Waktu respon (menit)</li>
+                        <li><code>Avg Duration</code> — Rata-rata durasi chat (detik)</li>
+                        <li><code>Messages Sent</code> — Jumlah pesan dikirim</li>
+                    </ul>
+                </div>
+                <div class="sheet-card">
+                    <span class="sheet-label label-inv">Sheet: Invoice / Invoices</span>
+                    <h4>Data Invoice</h4>
+                    <p>Berisi data tagihan yang dibuat per agen per hari.</p>
+                    <ul class="col-list">
+                        <li><code>Date</code> — Tanggal invoice</li>
+                        <li><code>Agent</code> / <code>Assignee</code> — Email agen</li>
+                        <li><code>Count</code> / <code>Total</code> — Jumlah invoice</li>
+                        <li><code>Nominal</code> / <code>Amount</code> — Nilai (Rupiah)</li>
+                        <li><code>Status</code> — paid / unpaid / expired</li>
+                    </ul>
+                </div>
+                <div class="sheet-card">
+                    <span class="sheet-label label-agent">Sheet: Agent / Agents / Online</span>
+                    <h4>Data Waktu Online</h4>
+                    <p>Berisi akumulasi jam kerja online per agen.</p>
+                    <ul class="col-list">
+                        <li><code>Agent</code> / <code>Email</code> — Email agen</li>
+                        <li><code>Online Hours</code> / <code>Jam Online</code> — Total jam</li>
+                        <li><code>Assigned</code> — Jumlah pelanggan dialokasikan</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top:1rem; padding:0.85rem 1rem; background:#fffbeb; border:1px solid #fde68a; border-radius:var(--radius-md);">
+                <p style="font-size:0.78rem; color:#92400e; font-weight:600;">
+                    💡 <strong>Tip:</strong> Sistem bekerja fleksibel — nama kolom tidak harus persis sama, cukup mengandung kata kunci yang relevan (case-insensitive). Bila sheet tidak ditemukan, data dari kolom Excel yang ada tetap akan diekstrak secara otomatis.
+                </p>
+            </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="card" id="previewSection">
+            <div class="card-title">
+                <div class="icon icon-green">👁️</div>
+                <span>Langkah 2 — Preview Data Terproses</span>
+            </div>
+
+            <div class="preview-stats" id="previewStats"></div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Agen</th>
+                            <th class="td-right">Chat Baru</th>
+                            <th class="td-right">Chat Aktif</th>
+                            <th class="td-right">Assigned</th>
+                            <th class="td-right">Resp. (mnt)</th>
+                            <th class="td-right">Invoice</th>
+                            <th class="td-right">Nominal</th>
+                            <th class="td-right">Durasi (mnt)</th>
+                            <th class="td-right">Pesan</th>
+                            <th class="td-center">Paid/Unpaid/Exp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="previewBody"></tbody>
+                </table>
+            </div>
+            <p id="previewMore" style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.5rem; text-align:right;"></p>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="card" id="outputSection">
+            <div class="card-title">
+                <div class="icon icon-indigo">⚡</div>
+                <span>Langkah 3 — Salin Kode ke Dashboard</span>
+            </div>
+
+            <div class="steps" style="margin-bottom:1.5rem;">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-body">
+                        <strong>Salin kode rawData</strong>
+                        <span>Klik tombol "Salin rawData" di bawah lalu tempel (paste) ke file <code>dashboard-direct-boss.html</code> pada baris yang bertuliskan <code>const rawData = [...];</code></span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-body">
+                        <strong>Salin kode onlineHoursMap</strong>
+                        <span>Tempel pada baris yang bertuliskan <code>const onlineHoursMap = {...};</code></span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-body">
+                        <strong>Perbarui filter periode</strong>
+                        <span>Jika data mencakup bulan baru, tambahkan opsi baru pada elemen <code>&lt;select id="filterDate"&gt;</code> di dashboard.</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-body">
+                        <strong>Atau download file siap pakai</strong>
+                        <span>Klik "Download dashboard-direct-boss.html" untuk mendapatkan file dashboard yang sudah diinjeksikan data terbaru secara otomatis.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('rawData')">rawData</button>
+                <button class="tab-btn" onclick="switchTab('onlineHours')">onlineHoursMap</button>
+                <button class="tab-btn" onclick="switchTab('fullCode')">Kode Lengkap</button>
+            </div>
+
+            <div class="output-area" id="outputArea"></div>
+
+            <div class="action-bar">
+                <button class="btn btn-primary" id="copyBtn" onclick="copyOutput()">
+                    📋 Salin Kode
+                </button>
+                <button class="btn btn-success" onclick="downloadDashboard()">
+                    ⬇️ Download dashboard-direct-boss.html
+                </button>
+                <button class="btn btn-secondary" onclick="resetAll()">
+                    🔄 Upload File Baru
+                </button>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+
+    <!-- TOAST -->
+    <div class="copy-toast" id="copyToast">✅ Kode berhasil disalin!</div>
+
+    <script>
+    // ========================
+    // STATE
+    // ========================
+    let parsedRawData = [];
+    let parsedOnlineHoursMap = {};
+    let activeTab = 'rawData';
+    let originalDashboardHTML = null;
+
+    // ========================
+    // DRAG & DROP
+    // ========================
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const file = e.dataTransfer.files[0];
+        if (file) processFile(file);
+    });
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files[0]) processFile(fileInput.files[0]);
+    });
+
+    // ========================
+    // FILE PROCESSING
+    // ========================
+    function processFile(file) {
+        const validExtensions = ['.xlsx', '.xls'];
+        const ext = file.name.toLowerCase().slice(file.name.lastIndexOf('.'));
+        if (!validExtensions.includes(ext)) {
+            showStatus('error', `❌ Format file tidak valid. Harap upload file .xlsx atau .xls`);
+            return;
+        }
+
+        showStatus('info', `⏳ Memproses file "${file.name}"...`);
+        showProgress(true, 'Membaca file Excel...', 10);
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            try {
+                showProgress(true, 'Mengurai sheet...', 30);
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+
+                showProgress(true, 'Memetakan kolom...', 55);
+                const result = parseWorkbook(workbook);
+
+                showProgress(true, 'Menghasilkan output...', 80);
+                parsedRawData = result.rawData;
+                parsedOnlineHoursMap = result.onlineHoursMap;
+
+                showProgress(true, 'Selesai!', 100);
+                setTimeout(() => {
+                    showProgress(false);
+                    showStatus('success', `✅ Berhasil memproses ${parsedRawData.length} baris data dari ${workbook.SheetNames.length} sheet.`);
+                    renderPreview();
+                    renderOutput();
+                    loadOriginalDashboard();
+                }, 500);
+            } catch (err) {
+                showProgress(false);
+                console.error(err);
+                showStatus('error', `❌ Gagal memproses file: ${err.message}`);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    // ========================
+    // PARSE WORKBOOK
+    // ========================
+    function parseWorkbook(wb) {
+        const sheets = wb.SheetNames;
+
+        // Find sheets by pattern
+        const chatSheetName   = sheets.find(s => /chat|percakapan|conversation|report/i.test(s));
+        const invoiceSheetName = sheets.find(s => /invoice|inv|tagihan/i.test(s));
+        const agentSheetName  = sheets.find(s => /agent|agen|online|assignee/i.test(s));
+
+        // Parse each sheet to JSON
+        const getRows = (name) => name ? XLSX.utils.sheet_to_json(wb.Sheets[name], { defval: '' }) : [];
+
+        const chatRows    = getRows(chatSheetName)    || XLSX.utils.sheet_to_json(wb.Sheets[sheets[0]], { defval: '' });
+        const invoiceRows = invoiceSheetName ? getRows(invoiceSheetName) : [];
+        const agentRows   = agentSheetName ? getRows(agentSheetName) : [];
+
+        // ---- Helper: find key in row object (case-insensitive, partial match) ----
+        function findKey(row, candidates) {
+            const keys = Object.keys(row);
+            for (const cand of candidates) {
+                const found = keys.find(k => k.toLowerCase().replace(/[\s_\-]/g,'').includes(cand.toLowerCase().replace(/[\s_\-]/g,'')));
+                if (found !== undefined) return found;
+            }
+            return null;
+        }
+
+        function getVal(row, candidates, defaultVal = 0) {
+            const k = findKey(row, candidates);
+            if (!k) return defaultVal;
+            const v = row[k];
+            if (v === '' || v === null || v === undefined) return defaultVal;
+            if (typeof v === 'number') return v;
+            const parsed = parseFloat(String(v).replace(/[^0-9.\-]/g, ''));
+            return isNaN(parsed) ? defaultVal : parsed;
+        }
+
+        function getStr(row, candidates, defaultVal = '') {
+            const k = findKey(row, candidates);
+            if (!k) return defaultVal;
+            return String(row[k] || defaultVal).trim();
+        }
+
+        function formatDate(d) {
+            if (!d) return null;
+            if (d instanceof Date) {
+                return d.toISOString().split('T')[0];
+            }
+            // Handle Excel serial date (number)
+            if (typeof d === 'number') {
+                const jsDate = new Date(Math.round((d - 25569) * 86400 * 1000));
+                return jsDate.toISOString().split('T')[0];
+            }
+            // Try to parse string
+            const s = String(d).trim();
+            // Already ISO
+            if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.substring(0, 10);
+            // Try DD/MM/YYYY or DD-MM-YYYY
+            const m = s.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+            if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+            const d2 = new Date(s);
+            if (!isNaN(d2)) return d2.toISOString().split('T')[0];
+            return null;
+        }
+
+        // ---- Build chat aggregation by (date, agentId) ----
+        const chatMap = {};
+
+        chatRows.forEach(row => {
+            const rawDate = getStr(row, ['Date','Tanggal','date'], '');
+            const date = formatDate(rawDate || row[Object.keys(row)[0]]);
+            if (!date) return;
+
+            const agentId = getStr(row, ['Agent','Assignee','Email','CS','agen','email'], '').toLowerCase();
+            if (!agentId) return;
+
+            const key = `${date}__${agentId}`;
+            if (!chatMap[key]) {
+                chatMap[key] = {
+                    date, agentId,
+                    newChat: 0, activeChat: 0, assigned: 0,
+                    responseTime: 0, rtCount: 0,
+                    invoices: 0, nominal: 0,
+                    totalDuration: 0, totalMessages: 0,
+                    inv_paid: 0, inv_unpaid: 0, inv_expired: 0
+                };
+            }
+
+            const r = chatMap[key];
+            r.newChat     += getVal(row, ['New Conversations','New Conv','newChat','chat baru','NewChat','new_chat','Percakapan Baru']);
+            r.activeChat  += getVal(row, ['Open Conversations','Active Conv','activeChat','chat aktif','open_conv','ActiveChat','Percakapan Aktif','open conversations']);
+            r.assigned    += getVal(row, ['Assigned','Dialokasikan','assigned','customer assigned']);
+
+            // Response time — convert from seconds to minutes if needed
+            const rt = getVal(row, ['Avg First Response Time','First Response','response time','resp time','ResponseTime','avg_first_response','waktu respon','Avg Response Time'], 0);
+            if (rt > 0) {
+                // if rt > 1440, likely in seconds — convert to minutes
+                const rtMin = rt > 1440 ? rt / 60 : rt;
+                r.responseTime += rtMin;
+                r.rtCount += 1;
+            }
+
+            // Duration — convert from seconds to minutes if > 600
+            const dur = getVal(row, ['Avg Duration','Duration','durasi','totalDuration','Avg Chat Duration','total_duration'], 0);
+            r.totalDuration += dur > 600 ? dur / 60 : dur;
+
+            r.totalMessages += getVal(row, ['Messages Sent','messages','pesan','Outgoing Messages','msg_sent','totalMessages'], 0);
+        });
+
+        // ---- Parse Invoice rows ----
+        if (invoiceRows.length > 0) {
+            invoiceRows.forEach(row => {
+                const rawDate = getStr(row, ['Date','Tanggal','date','Created At','created_at'], '');
+                const date = formatDate(rawDate);
+                if (!date) return;
+
+                const agentId = getStr(row, ['Agent','Assignee','CS','Email','created by'], '').toLowerCase();
+                if (!agentId) return;
+
+                const key = `${date}__${agentId}`;
+                if (!chatMap[key]) {
+                    chatMap[key] = {
+                        date, agentId,
+                        newChat: 0, activeChat: 0, assigned: 0,
+                        responseTime: 0, rtCount: 0,
+                        invoices: 0, nominal: 0,
+                        totalDuration: 0, totalMessages: 0,
+                        inv_paid: 0, inv_unpaid: 0, inv_expired: 0
+                    };
+                }
+
+                const r = chatMap[key];
+                const count = getVal(row, ['Count','Total','Jumlah','inv_count','qty','num','Banyak'], 0);
+                const amount = getVal(row, ['Nominal','Amount','Value','Nilai','total_nominal','Grand Total','Rupiah'], 0);
+                const status = getStr(row, ['Status','status'], '').toLowerCase();
+
+                if (count > 0 || amount > 0) {
+                    r.invoices += count || 1;
+                    r.nominal  += amount;
+                }
+
+                if (status.includes('paid') && !status.includes('unpaid')) r.inv_paid++;
+                else if (status.includes('unpaid') || status.includes('belum')) r.inv_unpaid++;
+                else if (status.includes('expired') || status.includes('kadaluarsa') || status.includes('kedaluwarsa')) r.inv_expired++;
+            });
+        } else {
+            // Try to extract invoice columns from chat sheet
+            chatRows.forEach(row => {
+                const rawDate = getStr(row, ['Date','Tanggal'], '');
+                const date = formatDate(rawDate);
+                if (!date) return;
+                const agentId = getStr(row, ['Agent','Assignee','Email'], '').toLowerCase();
+                if (!agentId) return;
+                const key = `${date}__${agentId}`;
+                const r = chatMap[key];
+                if (!r) return;
+
+                const invCount  = getVal(row, ['Invoice Count','Invoices','invoice','Total Invoice'], 0);
+                const nominal   = getVal(row, ['Invoice Amount','Nominal','Revenue','Pendapatan','Amount'], 0);
+                const invPaid   = getVal(row, ['Paid','inv_paid','Lunas'], 0);
+                const invUnpaid = getVal(row, ['Unpaid','inv_unpaid','Belum Bayar'], 0);
+                const invExp    = getVal(row, ['Expired','inv_expired','Kadaluarsa','Kedaluwarsa'], 0);
+
+                r.invoices  += invCount;
+                r.nominal   += nominal;
+                r.inv_paid  += invPaid;
+                r.inv_unpaid+= invUnpaid;
+                r.inv_expired+=invExp;
+            });
+        }
+
+        // ---- Build final rawData array ----
+        const rawData = Object.values(chatMap).map(r => ({
+            date: r.date,
+            agentId: r.agentId,
+            newChat: Math.round(r.newChat),
+            activeChat: Math.round(r.activeChat),
+            assigned: Math.round(r.assigned),
+            responseTime: r.rtCount > 0 ? parseFloat((r.responseTime / r.rtCount).toFixed(2)) : 0,
+            invoices: Math.round(r.invoices),
+            nominal: parseFloat(r.nominal.toFixed(2)),
+            totalDuration: parseFloat(r.totalDuration.toFixed(1)),
+            totalMessages: Math.round(r.totalMessages),
+            inv_paid: Math.round(r.inv_paid),
+            inv_unpaid: Math.round(r.inv_unpaid),
+            inv_expired: Math.round(r.inv_expired)
+        })).sort((a, b) => a.date.localeCompare(b.date) || a.agentId.localeCompare(b.agentId));
+
+        // ---- Build onlineHoursMap ----
+        const onlineHoursMap = {};
+
+        if (agentRows.length > 0) {
+            agentRows.forEach(row => {
+                const agentId = getStr(row, ['Agent','Email','CS','agen','email'], '').toLowerCase();
+                if (!agentId) return;
+                const hours = getVal(row, ['Online Hours','Jam Online','online_hours','Hours','Jam Kerja','Waktu Online'], 0);
+                if (agentId) onlineHoursMap[agentId] = parseFloat(hours.toFixed(2));
+            });
+        } else {
+            // Fallback: get assigned from chat rows for agents not found in agent sheet
+            const agentTotals = {};
+            chatRows.forEach(row => {
+                const agentId = getStr(row, ['Agent','Assignee','Email'], '').toLowerCase();
+                const hours = getVal(row, ['Online Hours','Jam Online','online_hours'], 0);
+                if (agentId && hours > 0) {
+                    agentTotals[agentId] = (agentTotals[agentId] || 0) + hours;
+                }
+            });
+            Object.assign(onlineHoursMap, agentTotals);
+        }
+
+        return { rawData, onlineHoursMap };
+    }
+
+    // ========================
+    // RENDER PREVIEW
+    // ========================
+    function renderPreview() {
+        const section = document.getElementById('previewSection');
+        section.style.display = 'block';
+
+        // Stats
+        const agents = [...new Set(parsedRawData.map(r => r.agentId))];
+        const dates  = [...new Set(parsedRawData.map(r => r.date))];
+        const totalInv = parsedRawData.reduce((s, r) => s + r.invoices, 0);
+        const totalNom = parsedRawData.reduce((s, r) => s + r.nominal, 0);
+
+        document.getElementById('previewStats').innerHTML = `
+            <div class="stat-box"><div class="val">${parsedRawData.length}</div><div class="lbl">Total Baris Data</div></div>
+            <div class="stat-box"><div class="val">${agents.length}</div><div class="lbl">Jumlah Agen</div></div>
+            <div class="stat-box"><div class="val">${dates.length}</div><div class="lbl">Rentang Hari</div></div>
+            <div class="stat-box"><div class="val">${totalInv}</div><div class="lbl">Total Invoice</div></div>
+            <div class="stat-box"><div class="val">${fmtRp(totalNom)}</div><div class="lbl">Total Nominal</div></div>
+        `;
+
+        // Table (max 50 rows preview)
+        const preview = parsedRawData.slice(0, 50);
+        document.getElementById('previewBody').innerHTML = preview.map(r => `
+            <tr>
+                <td>${r.date}</td>
+                <td><span class="badge-agent">${r.agentId}</span></td>
+                <td class="td-right">${r.newChat}</td>
+                <td class="td-right">${r.activeChat}</td>
+                <td class="td-right">${r.assigned}</td>
+                <td class="td-right">${r.responseTime}</td>
+                <td class="td-right">${r.invoices}</td>
+                <td class="td-right">${fmtRp(r.nominal)}</td>
+                <td class="td-right">${r.totalDuration}</td>
+                <td class="td-right">${r.totalMessages}</td>
+                <td class="td-center">${r.inv_paid} / ${r.inv_unpaid} / ${r.inv_expired}</td>
+            </tr>
+        `).join('');
+
+        if (parsedRawData.length > 50) {
+            document.getElementById('previewMore').textContent = `Menampilkan 50 dari ${parsedRawData.length} baris. Output lengkap tersedia di bawah.`;
+        }
+    }
+
+    // ========================
+    // RENDER OUTPUT
+    // ========================
+    function renderOutput() {
+        document.getElementById('outputSection').style.display = 'block';
+        switchTab(activeTab);
+    }
+
+    function switchTab(tab) {
+        activeTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${tab}'`));
+        });
+
+        const area = document.getElementById('outputArea');
+        let code = '';
+
+        if (tab === 'rawData') {
+            code = `const rawData = ${JSON.stringify(parsedRawData, null, 2)};`;
+        } else if (tab === 'onlineHours') {
+            code = `const onlineHoursMap = ${JSON.stringify(parsedOnlineHoursMap, null, 2)};`;
+        } else {
+            code = `// === PASTE SELURUH BLOK INI KE DALAM TAG <script> DI DASHBOARD ===\n\n` +
+                   `const rawData = ${JSON.stringify(parsedRawData, null, 2)};\n\n` +
+                   `const onlineHoursMap = ${JSON.stringify(parsedOnlineHoursMap, null, 2)};`;
+        }
+
+        area.textContent = code;
+    }
+
+    // ========================
+    // COPY TO CLIPBOARD
+    // ========================
+    async function copyOutput() {
+        const area = document.getElementById('outputArea');
+        try {
+            await navigator.clipboard.writeText(area.textContent);
+            const toast = document.getElementById('copyToast');
+            toast.style.display = 'flex';
+            setTimeout(() => { toast.style.display = 'none'; }, 2500);
+        } catch {
+            area.select && area.select();
+            document.execCommand('copy');
+        }
+    }
+
+    // ========================
+    // DOWNLOAD DASHBOARD WITH DATA INJECTED
+    // ========================
+    async function loadOriginalDashboard() {
+        try {
+            const resp = await fetch('dashboard-direct-boss.html');
+            originalDashboardHTML = await resp.text();
+        } catch {
+            originalDashboardHTML = null;
+        }
+    }
+
+    function downloadDashboard() {
+        if (!originalDashboardHTML) {
+            alert('File dashboard-direct-boss.html tidak ditemukan. Pastikan file tersebut ada di folder yang sama.');
+            return;
+        }
+
+        // Replace rawData
+        let updated = originalDashboardHTML.replace(
+            /const rawData = \[[\s\S]*?\];/,
+            `const rawData = ${JSON.stringify(parsedRawData)};`
+        );
+
+        // Replace onlineHoursMap
+        updated = updated.replace(
+            /const onlineHoursMap = \{[\s\S]*?\};/,
+            `const onlineHoursMap = ${JSON.stringify(parsedOnlineHoursMap)};`
+        );
+
+        // Download
+        const now = new Date();
+        const ts = now.toISOString().replace(/[-:T]/g,'').slice(0,15);
+        const blob = new Blob([updated], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `dashboard-direct-boss_${ts}.html`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // ========================
+    // RESET
+    // ========================
+    function resetAll() {
+        parsedRawData = [];
+        parsedOnlineHoursMap = {};
+        originalDashboardHTML = null;
+        fileInput.value = '';
+        document.getElementById('uploadStatus').style.display = 'none';
+        document.getElementById('previewSection').style.display = 'none';
+        document.getElementById('outputSection').style.display = 'none';
+        document.getElementById('progressWrap').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ========================
+    // HELPERS
+    // ========================
+    function showStatus(type, msg) {
+        const el = document.getElementById('uploadStatus');
+        el.className = `status-${type}`;
+        el.style.display = 'flex';
+        el.innerHTML = msg;
+    }
+
+    function showProgress(show, label = '', pct = 0) {
+        const wrap = document.getElementById('progressWrap');
+        wrap.style.display = show ? 'block' : 'none';
+        if (show) {
+            document.getElementById('progressLabel').textContent = label;
+            document.getElementById('progressFill').style.width = pct + '%';
+        }
+    }
+
+    function fmtRp(num) {
+        if (!num || num === 0) return 'Rp 0';
+        if (num >= 1e9) return 'Rp ' + (num/1e9).toFixed(1) + 'M';
+        if (num >= 1e6) return 'Rp ' + (num/1e6).toFixed(1) + 'jt';
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
+    }
+
+    // Load dashboard on page load for download feature
+    loadOriginalDashboard();
+    </script>
+
+</body>
+</html>
