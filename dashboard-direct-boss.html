@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Analytics - Akses Legal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- SheetJS untuk membaca file Excel -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for beautiful icons -->
     <link rel="stylesheet" href="https://cdnjs.ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
         body {
@@ -288,7 +286,6 @@
 
 <body class="text-slate-800 antialiased p-4 md:p-8">
 
-    <!-- Header Section -->
     <div
         class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 border-b border-slate-200 pb-4">
         <div>
@@ -311,7 +308,6 @@
                 <label for="hideBotToggle"
                     class="text-xs font-bold text-slate-700 select-none cursor-pointer">Sembunyikan Bot/Info</label>
             </div>
-            <!-- Badge sumber data aktif -->
             <div id="dataSourceBadge">
                 <i class="fa fa-circle-check"></i>
                 <span id="dataSourceLabel">Data dari file</span>
@@ -325,7 +321,6 @@
         </div>
     </div>
 
-    <!-- Leaderboard KPIs -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         <div class="card bg-gradient-to-br from-blue-50 to-white border-l-4 border-l-blue-500">
             <div class="flex justify-between items-start">
@@ -377,7 +372,6 @@
         </div>
     </div>
 
-    <!-- CS Performance Cards Section -->
     <div class="card mb-8">
         <div class="flex justify-between items-center mb-5 border-b pb-3">
             <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -397,14 +391,11 @@
             </h3>
         </div>
         <div id="csCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Dynamically populated cards -->
-        </div>
+            </div>
     </div>
 
-    <!-- Charts Grid Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
 
-        <!-- Chart 1: Beban Chat -->
         <div class="card">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -416,7 +407,6 @@
             </div>
         </div>
 
-        <!-- Chart 2: Kecepatan Respon -->
         <div class="card">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -428,7 +418,6 @@
             </div>
         </div>
 
-        <!-- Chart 3: Durasi Chat -->
         <div class="card">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -440,7 +429,6 @@
             </div>
         </div>
 
-        <!-- Chart 4: Rata-Rata Pesan per Chat -->
         <div class="card">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -452,7 +440,6 @@
             </div>
         </div>
 
-        <!-- Chart 5: Volume Invoice Dibuat -->
         <div class="card">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -464,7 +451,6 @@
             </div>
         </div>
 
-        <!-- Chart 6: Kontribusi Pendapatan -->
         <div class="card">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -476,7 +462,6 @@
             </div>
         </div>
 
-        <!-- Chart 7: Rasio Status Invoice (Paid vs Unpaid vs Expired) - FULL WIDTH -->
         <div class="card lg:col-span-2">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -488,7 +473,6 @@
             </div>
         </div>
 
-        <!-- Chart 8: Jam Kerja Online -->
         <div class="card">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -500,7 +484,6 @@
             </div>
         </div>
 
-        <!-- Chart 9: Persentase Customer Assigned -->
         <div class="card">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
@@ -514,7 +497,6 @@
 
     </div>
 
-    <!-- Detailed Table Section -->
     <div class="card mt-6">
         <div class="flex justify-between items-center mb-5 border-b pb-3">
             <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -538,13 +520,11 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700 font-medium">
-                    <!-- Dynamic Rows -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
 
-    <!-- ===== UPLOAD MODAL ===== -->
     <div id="uploadModal" role="dialog" aria-modal="true" aria-label="Upload Data Excel">
         <div class="modal-box">
             <button class="modal-close" onclick="closeUploadModal()" title="Tutup">✕</button>
@@ -560,7 +540,6 @@
                     export — dashboard akan langsung ter-update otomatis.</p>
             </div>
 
-            <!-- Drop Zone -->
             <div id="dropZone" onclick="document.getElementById('fileInputModal').click()">
                 <span class="drop-icon">📂</span>
                 <p style="font-size:1rem;font-weight:700;color:#1e293b;margin-bottom:0.35rem;">Seret & Lepas file ke
@@ -580,10 +559,8 @@
             </div>
             <input type="file" id="fileInputModal" accept=".xlsx,.xls" style="display:none;" />
 
-            <!-- Status -->
             <div id="uploadStatus"></div>
 
-            <!-- Progress -->
             <div class="progress-wrap" id="progressWrap">
                 <p id="progressLabel" style="font-size:0.75rem;font-weight:600;color:#64748b;">Memproses...</p>
                 <div class="progress-bar-bg">
@@ -593,12 +570,11 @@
         </div>
     </div>
 
-    <!-- Toast Notifikasi -->
     <div id="successToast">✅ <span id="toastMsg">Dashboard berhasil diperbarui!</span></div>
 
     <script>
-        // Data Asli (terpotong sebagian di prompt Anda, ini dataset utuh yang terselamatkan)
-        let rawData = [{ "date": "2026-05-31", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 5, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 5, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "info@akseslegal.id", "newChat": 3, "activeChat": 33, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 3402.2, "totalMessages": 173, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 2, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 7, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 10, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "info@akseslegal.id", "newChat": 3, "activeChat": 41, "assigned": 0, "responseTime": 0.0, "invoices": 12, "nominal": 35634000.0, "totalDuration": 5323.0, "totalMessages": 203, "inv_paid": 0, "inv_unpaid": 8, "inv_expired": 4 }, { "date": "2026-06-01", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 7, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 13, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 8, "assigned": 14, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 24.7, "totalMessages": 29, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "info@akseslegal.id", "newChat": 14, "activeChat": 122, "assigned": 0, "responseTime": 0.0, "invoices": 15, "nominal": 35637000.0, "totalDuration": 13121.0, "totalMessages": 617, "inv_paid": 0, "inv_unpaid": 10, "inv_expired": 5 }, { "date": "2026-06-02", "agentId": "csakseslegal3@gmail.com", "newChat": 1, "activeChat": 6, "assigned": 8, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 198.8, "totalMessages": 24, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "csakseslegal4@gmail.com", "newChat": 2, "activeChat": 8, "assigned": 10, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 10.6, "totalMessages": 12, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 10, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 1, "assigned": 7, "responseTime": 0.61, "invoices": 0, "nominal": 0.0, "totalDuration": 15.8, "totalMessages": 12, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "info@akseslegal.id", "newChat": 9, "activeChat": 99, "assigned": 0, "responseTime": 32.15, "invoices": 12, "nominal": 18024000.0, "totalDuration": 14567.6, "totalMessages": 521, "inv_paid": 0, "inv_unpaid": 8, "inv_expired": 4 }, { "date": "2026-06-03", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 3, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 6, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-04", "agentId": "csakseslegal2@gmail.com", "newChat": 4, "activeChat": 34, "assigned": 10, "responseTime": 49.51, "invoices": 0, "nominal": 0.0, "totalDuration": 3998.1, "totalMessages": 135, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-04", "agentId": "csakseslegal1@gmail.com", "newChat": 2, "activeChat": 45, "assigned": 18, "responseTime": 40.6, "invoices": 18, "nominal": 64545000.0, "totalDuration": 4498.9, "totalMessages": 237, "inv_paid": 0, "inv_unpaid": 12, "inv_expired": 6 }, { "date": "2026-06-04", "agentId": "info@akseslegal.id", "newChat": 0, "activeChat": 10, "assigned": 0, "responseTime": 43.16, "invoices": 0, "nominal": 0.0, "totalDuration": 382.6, "totalMessages": 25, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-04", "agentId": "csakseslegal3@gmail.com", "newChat": 1, "activeChat": 23, "assigned": 9, "responseTime": 49.72, "invoices": 3, "nominal": 4500000.0, "totalDuration": 2476.7, "totalMessages": 105, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 1 }, { "date": "2026-06-04", "agentId": "csakseslegal4@gmail.com", "newChat": 6, "activeChat": 18, "assigned": 10, "responseTime": 10.43, "invoices": 9, "nominal": 19494000.0, "totalDuration": 2497.7, "totalMessages": 140, "inv_paid": 0, "inv_unpaid": 6, "inv_expired": 3 }, { "date": "2026-06-04", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-05", "agentId": "csakseslegal2@gmail.com", "newChat": 4, "activeChat": 34, "assigned": 12, "responseTime": 61.66, "invoices": 9, "nominal": 17397000.0, "totalDuration": 5724.0, "totalMessages": 187, "inv_paid": 0, "inv_unpaid": 6, "inv_expired": 3 }, { "date": "2026-06-05", "agentId": "csakseslegal1@gmail.com", "newChat": 3, "activeChat": 38, "assigned": 10, "responseTime": 30.83, "invoices": 18, "nominal": 50094000.0, "totalDuration": 4518.2, "totalMessages": 284, "inv_paid": 0, "inv_unpaid": 12, "inv_expired": 6 }, { "date": "2026-06-05", "agentId": "info@akseslegal.id", "newChat": 0, "activeChat": 4, "assigned": 0, "responseTime": 3.58, "invoices": 9, "nominal": 3750000.0, "totalDuration": 0.0, "totalMessages": 4, "inv_paid": 2, "inv_unpaid": 6, "inv_expired": 1 }, { "date": "2026-06-05", "agentId": "csakseslegal3@gmail.com", "newChat": 3, "activeChat": 19, "assigned": 6, "responseTime": 38.33, "invoices": 3, "nominal": 7497000.0, "totalDuration": 3857.4, "totalMessages": 188, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 1 }, { "date": "2026-06-05", "agentId": "csakseslegal4@gmail.com", "newChat": 4, "activeChat": 21, "assigned": 9, "responseTime": 5.4, "invoices": 12, "nominal": 6945000.0, "totalDuration": 2204.3, "totalMessages": 133, "inv_paid": 0, "inv_unpaid": 8, "inv_expired": 4 }, { "date": "2026-06-05", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 4, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 5, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "info@akseslegal.id", "newChat": 1, "activeChat": 41, "assigned": 0, "responseTime": 30.6, "invoices": 2, "nominal": 4800000.0, "totalDuration": 2171.0, "totalMessages": 164, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 1, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 5, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }];
+        // Data Asli (Dataset utuh)
+        let rawData = [{ "date": "2026-05-31", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 5, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 5, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "info@akseslegal.id", "newChat": 3, "activeChat": 33, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 3402.2, "totalMessages": 173, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 2, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-05-31", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 7, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 10, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "info@akseslegal.id", "newChat": 3, "activeChat": 41, "assigned": 0, "responseTime": 0.0, "invoices": 12, "nominal": 35634000.0, "totalDuration": 5323.0, "totalMessages": 203, "inv_paid": 0, "inv_unpaid": 8, "inv_expired": 4 }, { "date": "2026-06-01", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 7, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-01", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 13, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 8, "assigned": 14, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 24.7, "totalMessages": 29, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "info@akseslegal.id", "newChat": 14, "activeChat": 122, "assigned": 0, "responseTime": 0.0, "invoices": 15, "nominal": 35637000.0, "totalDuration": 13121.0, "totalMessages": 617, "inv_paid": 0, "inv_unpaid": 10, "inv_expired": 5 }, { "date": "2026-06-02", "agentId": "csakseslegal3@gmail.com", "newChat": 1, "activeChat": 6, "assigned": 8, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 198.8, "totalMessages": 24, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "csakseslegal4@gmail.com", "newChat": 2, "activeChat": 8, "assigned": 10, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 10.6, "totalMessages": 12, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-02", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 10, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 1, "assigned": 7, "responseTime": 0.61, "invoices": 0, "nominal": 0.0, "totalDuration": 15.8, "totalMessages": 12, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "info@akseslegal.id", "newChat": 9, "activeChat": 99, "assigned": 0, "responseTime": 32.15, "invoices": 12, "nominal": 18024000.0, "totalDuration": 14567.6, "totalMessages": 521, "inv_paid": 0, "inv_unpaid": 8, "inv_expired": 4 }, { "date": "2026-06-03", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 3, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 6, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-03", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-04", "agentId": "csakseslegal2@gmail.com", "newChat": 4, "activeChat": 34, "assigned": 10, "responseTime": 49.51, "invoices": 0, "nominal": 0.0, "totalDuration": 3998.1, "totalMessages": 135, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-04", "agentId": "csakseslegal1@gmail.com", "newChat": 2, "activeChat": 45, "assigned": 18, "responseTime": 40.6, "invoices": 18, "nominal": 64545000.0, "totalDuration": 4498.9, "totalMessages": 237, "inv_paid": 0, "inv_unpaid": 12, "inv_expired": 6 }, { "date": "2026-06-04", "agentId": "info@akseslegal.id", "newChat": 0, "activeChat": 10, "assigned": 0, "responseTime": 43.16, "invoices": 0, "nominal": 0.0, "totalDuration": 382.6, "totalMessages": 25, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-04", "agentId": "csakseslegal3@gmail.com", "newChat": 1, "activeChat": 23, "assigned": 9, "responseTime": 49.72, "invoices": 3, "nominal": 4500000.0, "totalDuration": 2476.7, "totalMessages": 105, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 1 }, { "date": "2026-06-04", "agentId": "csakseslegal4@gmail.com", "newChat": 6, "activeChat": 18, "assigned": 10, "responseTime": 10.43, "invoices": 9, "nominal": 19494000.0, "totalDuration": 2497.7, "totalMessages": 140, "inv_paid": 0, "inv_unpaid": 6, "inv_expired": 3 }, { "date": "2026-06-04", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-05", "agentId": "csakseslegal2@gmail.com", "newChat": 4, "activeChat": 34, "assigned": 12, "responseTime": 61.66, "invoices": 9, "nominal": 17397000.0, "totalDuration": 5724.0, "totalMessages": 187, "inv_paid": 0, "inv_unpaid": 6, "inv_expired": 3 }, { "date": "2026-06-05", "agentId": "csakseslegal1@gmail.com", "newChat": 3, "activeChat": 38, "assigned": 10, "responseTime": 30.83, "invoices": 18, "nominal": 50094000.0, "totalDuration": 4518.2, "totalMessages": 284, "inv_paid": 0, "inv_unpaid": 12, "inv_expired": 6 }, { "date": "2026-06-05", "agentId": "info@akseslegal.id", "newChat": 0, "activeChat": 4, "assigned": 0, "responseTime": 3.58, "invoices": 9, "nominal": 3750000.0, "totalDuration": 0.0, "totalMessages": 4, "inv_paid": 2, "inv_unpaid": 6, "inv_expired": 1 }, { "date": "2026-06-05", "agentId": "csakseslegal3@gmail.com", "newChat": 3, "activeChat": 19, "assigned": 6, "responseTime": 38.33, "invoices": 3, "nominal": 7497000.0, "totalDuration": 3857.4, "totalMessages": 188, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 1 }, { "date": "2026-06-05", "agentId": "csakseslegal4@gmail.com", "newChat": 4, "activeChat": 21, "assigned": 9, "responseTime": 5.4, "invoices": 12, "nominal": 6945000.0, "totalDuration": 2204.3, "totalMessages": 133, "inv_paid": 0, "inv_unpaid": 8, "inv_expired": 4 }, { "date": "2026-06-05", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 4, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 5, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "info@akseslegal.id", "newChat": 1, "activeChat": 41, "assigned": 0, "responseTime": 30.6, "invoices": 2, "nominal": 4800000.0, "totalDuration": 2171.0, "totalMessages": 164, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 1, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 5, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-06", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-07", "agentId": "csakseslegal2@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 3, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-07", "agentId": "csakseslegal1@gmail.com", "newChat": 0, "activeChat": 1, "assigned": 4, "responseTime": 1.77, "invoices": 0, "nominal": 0.0, "totalDuration": 4.2, "totalMessages": 6, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-07", "agentId": "info@akseslegal.id", "newChat": 4, "activeChat": 29, "assigned": 0, "responseTime": 9.88, "invoices": 4, "nominal": 4998000.0, "totalDuration": 1500.1, "totalMessages": 149, "inv_paid": 0, "inv_unpaid": 4, "inv_expired": 0 }, { "date": "2026-06-07", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-07", "agentId": "csakseslegal4@gmail.com", "newChat": 0, "activeChat": 0, "assigned": 2, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-07", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-08", "agentId": "csakseslegal2@gmail.com", "newChat": 3, "activeChat": 42, "assigned": 7, "responseTime": 47.3, "invoices": 6, "nominal": 9054000.0, "totalDuration": 6051.6, "totalMessages": 234, "inv_paid": 0, "inv_unpaid": 6, "inv_expired": 0 }, { "date": "2026-06-08", "agentId": "csakseslegal1@gmail.com", "newChat": 4, "activeChat": 47, "assigned": 12, "responseTime": 36.39, "invoices": 2, "nominal": 1000000.0000000001, "totalDuration": 3946.2, "totalMessages": 298, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 0 }, { "date": "2026-06-08", "agentId": "info@akseslegal.id", "newChat": 0, "activeChat": 14, "assigned": 0, "responseTime": 17.38, "invoices": 0, "nominal": 0.0, "totalDuration": 16.3, "totalMessages": 27, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-08", "agentId": "csakseslegal3@gmail.com", "newChat": 0, "activeChat": 16, "assigned": 1, "responseTime": 55.07, "invoices": 4, "nominal": 11086000.0, "totalDuration": 1548.9, "totalMessages": 103, "inv_paid": 0, "inv_unpaid": 4, "inv_expired": 0 }, { "date": "2026-06-08", "agentId": "csakseslegal4@gmail.com", "newChat": 5, "activeChat": 21, "assigned": 7, "responseTime": 4.08, "invoices": 16, "nominal": 30292000.0, "totalDuration": 3738.1, "totalMessages": 276, "inv_paid": 0, "inv_unpaid": 16, "inv_expired": 0 }, { "date": "2026-06-08", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-09", "agentId": "csakseslegal2@gmail.com", "newChat": 5, "activeChat": 35, "assigned": 7, "responseTime": 70.14, "invoices": 11, "nominal": 20792500.0, "totalDuration": 2745.2, "totalMessages": 168, "inv_paid": 0, "inv_unpaid": 10, "inv_expired": 1 }, { "date": "2026-06-09", "agentId": "csakseslegal1@gmail.com", "newChat": 3, "activeChat": 36, "assigned": 11, "responseTime": 27.25, "invoices": 6, "nominal": 11496000.0, "totalDuration": 2958.0, "totalMessages": 203, "inv_paid": 0, "inv_unpaid": 6, "inv_expired": 0 }, { "date": "2026-06-09", "agentId": "info@akseslegal.id", "newChat": 0, "activeChat": 10, "assigned": 0, "responseTime": 20.23, "invoices": 4, "nominal": 7698000.0, "totalDuration": 7.5, "totalMessages": 30, "inv_paid": 0, "inv_unpaid": 4, "inv_expired": 0 }, { "date": "2026-06-09", "agentId": "csakseslegal3@gmail.com", "newChat": 4, "activeChat": 16, "assigned": 4, "responseTime": 38.84, "invoices": 2, "nominal": 1998000.0, "totalDuration": 2735.7, "totalMessages": 140, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 0 }, { "date": "2026-06-09", "agentId": "csakseslegal4@gmail.com", "newChat": 2, "activeChat": 17, "assigned": 8, "responseTime": 6.31, "invoices": 2, "nominal": 10998000.0, "totalDuration": 836.4, "totalMessages": 88, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 0 }, { "date": "2026-06-09", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-10", "agentId": "csakseslegal2@gmail.com", "newChat": 4, "activeChat": 36, "assigned": 12, "responseTime": 69.46, "invoices": 4, "nominal": 6176000.0, "totalDuration": 6599.8, "totalMessages": 198, "inv_paid": 0, "inv_unpaid": 4, "inv_expired": 0 }, { "date": "2026-06-10", "agentId": "csakseslegal1@gmail.com", "newChat": 4, "activeChat": 39, "assigned": 18, "responseTime": 47.61, "invoices": 4, "nominal": 1900000.0, "totalDuration": 3876.5, "totalMessages": 243, "inv_paid": 0, "inv_unpaid": 4, "inv_expired": 0 }, { "date": "2026-06-10", "agentId": "info@akseslegal.id", "newChat": 0, "activeChat": 19, "assigned": 0, "responseTime": 20.37, "invoices": 0, "nominal": 0.0, "totalDuration": 365.9, "totalMessages": 49, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-10", "agentId": "csakseslegal3@gmail.com", "newChat": 3, "activeChat": 22, "assigned": 7, "responseTime": 54.49, "invoices": 2, "nominal": 6398000.0, "totalDuration": 2460.1, "totalMessages": 124, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 0 }, { "date": "2026-06-10", "agentId": "csakseslegal4@gmail.com", "newChat": 6, "activeChat": 21, "assigned": 10, "responseTime": 5.82, "invoices": 2, "nominal": 1000000.0000000001, "totalDuration": 2560.2, "totalMessages": 176, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 0 }, { "date": "2026-06-10", "agentId": "soros@latentspace.sh", "newChat": 1, "activeChat": 0, "assigned": 0, "responseTime": 0.7, "invoices": 0, "nominal": 0.0, "totalDuration": 4.5, "totalMessages": 3, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-11", "agentId": "csakseslegal2@gmail.com", "newChat": 4, "activeChat": 38, "assigned": 8, "responseTime": 73.46, "invoices": 4, "nominal": 12996000.0, "totalDuration": 6736.0, "totalMessages": 234, "inv_paid": 0, "inv_unpaid": 4, "inv_expired": 0 }, { "date": "2026-06-11", "agentId": "csakseslegal1@gmail.com", "newChat": 3, "activeChat": 49, "assigned": 10, "responseTime": 47.28, "invoices": 2, "nominal": 4498000.0, "totalDuration": 7051.5, "totalMessages": 387, "inv_paid": 0, "inv_unpaid": 2, "inv_expired": 0 }, { "date": "2026-06-11", "agentId": "info@akseslegal.id", "newChat": 4, "activeChat": 13, "assigned": 0, "responseTime": 17.56, "invoices": 7, "nominal": 33397000.0, "totalDuration": 40.5, "totalMessages": 41, "inv_paid": 0, "inv_unpaid": 6, "inv_expired": 1 }, { "date": "2026-06-11", "agentId": "csakseslegal3@gmail.com", "newChat": 3, "activeChat": 23, "assigned": 10, "responseTime": 16.41, "invoices": 0, "nominal": 0.0, "totalDuration": 3206.5, "totalMessages": 147, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }, { "date": "2026-06-11", "agentId": "csakseslegal4@gmail.com", "newChat": 1, "activeChat": 26, "assigned": 4, "responseTime": 6.17, "invoices": 6, "nominal": 16098000.0, "totalDuration": 3741.2, "totalMessages": 210, "inv_paid": 0, "inv_unpaid": 6, "inv_expired": 0 }, { "date": "2026-06-11", "agentId": "soros@latentspace.sh", "newChat": 0, "activeChat": 0, "assigned": 0, "responseTime": 0.0, "invoices": 0, "nominal": 0.0, "totalDuration": 0.0, "totalMessages": 0, "inv_paid": 0, "inv_unpaid": 0, "inv_expired": 0 }];
 
         let onlineHoursMap = { "csakseslegal2@gmail.com": 97.66, "csakseslegal4@gmail.com": 96.46, "csakseslegal3@gmail.com": 96.16, "soros@latentspace.sh": 24.0, "csakseslegal1@gmail.com": 0.0, "info@akseslegal.id": 0.0 };
 
@@ -625,7 +601,6 @@
             return email.split('@')[0];
         }
 
-        // Fungsi konversi durasi menit menjadi kalimat waktu yang mudah dipahami manusia
         function formatDurationText(totalMinutes) {
             if (!totalMinutes || totalMinutes <= 0) return "-";
             const hours = Math.floor(totalMinutes / 60);
@@ -635,7 +610,7 @@
             let res = [];
             if (hours > 0) res.push(`${hours} Jam`);
             if (mins > 0) res.push(`${mins} Menit`);
-            if (secs > 0 && hours === 0) res.push(`${secs} Detik`); // Tampilkan detik jika kurang dari 1 jam
+            if (secs > 0 && hours === 0) res.push(`${secs} Detik`);
 
             return res.length > 0 ? res.join(" ") : "0 Menit";
         }
@@ -644,7 +619,6 @@
             const hideBot = document.getElementById('hideBotToggle').checked;
             const filterDateVal = document.getElementById('filterDate').value;
 
-            // Filter — support old keyword values AND new YYYY-MM prefix from dynamic dropdown
             let ds = rawData;
             if (filterDateVal === 'june') {
                 ds = ds.filter(d => d.date.startsWith('2026-06'));
@@ -658,7 +632,6 @@
                 ds = ds.filter(d => d.agentId !== 'info@akseslegal.id' && d.agentId !== 'soros@latentspace.sh');
             }
 
-            // Agregasi per Agent
             const agg = {};
             ds.forEach(d => {
                 const name = formatAgentName(d.agentId);
@@ -697,7 +670,6 @@
 
             const agents = Object.keys(agg).sort();
 
-            // Calculate KPIs
             let topChat = { name: '-', val: 0 };
             let topRev = { name: '-', val: 0 };
             let topSpeed = { name: '-', val: 999999 };
@@ -737,7 +709,6 @@
             document.getElementById('totalInvVal').innerText = totalInv + " Invoice";
             document.getElementById('totalRevVal').innerText = formatRp(totalNominal);
 
-            // Populate CS Performance Cards
             const csCardsGrid = document.getElementById('csCardsGrid');
             if (csCardsGrid) {
                 csCardsGrid.innerHTML = "";
@@ -769,80 +740,42 @@
                                 ${subheaderHtml}
                             </div>
                             <div class="grid grid-cols-2 gap-x-6 gap-y-4 text-[11px] border-t border-slate-100 pt-4 text-slate-600 font-medium">
-                                <!-- Left Column -->
                                 <div class="space-y-4">
                                     <div>
                                         <div class="flex items-center gap-1 text-slate-400 mb-1">
                                             <span>Chat Baru</span>
-                                            <div class="relative group">
-                                                <i class="fa fa-circle-info cursor-pointer hover:text-indigo-600 transition-colors"></i>
-                                                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-40 bg-slate-900 text-white text-[9px] rounded p-2 shadow-lg z-50 text-center font-normal">
-                                                    Jumlah chat baru yang masuk selama periode ini.
-                                                </div>
-                                            </div>
                                         </div>
                                         <p class="text-sm font-bold text-slate-800">${newChat.toLocaleString()}</p>
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-1 text-slate-400 mb-1">
                                             <span>Pelanggan Dialokasikan</span>
-                                            <div class="relative group">
-                                                <i class="fa fa-circle-info cursor-pointer hover:text-indigo-600 transition-colors"></i>
-                                                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-40 bg-slate-900 text-white text-[9px] rounded p-2 shadow-lg z-50 text-center font-normal">
-                                                    Jumlah pelanggan baru yang ditugaskan ke CS ini.
-                                                </div>
-                                            </div>
                                         </div>
                                         <p class="text-sm font-bold text-slate-800">${assigned.toLocaleString()}</p>
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-1 text-slate-400 mb-1">
                                             <span>Invoice Dibuat</span>
-                                            <div class="relative group">
-                                                <i class="fa fa-circle-info cursor-pointer hover:text-indigo-600 transition-colors"></i>
-                                                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-40 bg-slate-900 text-white text-[9px] rounded p-2 shadow-lg z-50 text-center font-normal">
-                                                    Jumlah invoice yang dibuat oleh CS ini.
-                                                </div>
-                                            </div>
                                         </div>
                                         <p class="text-sm font-bold text-slate-800">${invoices.toLocaleString()}</p>
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-1 text-slate-400 mb-1">
                                             <span>Total Nominal</span>
-                                            <div class="relative group">
-                                                <i class="fa fa-circle-info cursor-pointer hover:text-indigo-600 transition-colors"></i>
-                                                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-40 bg-slate-900 text-white text-[9px] rounded p-2 shadow-lg z-50 text-center font-normal">
-                                                    Akumulasi nilai nominal rupiah dari invoice yang diterbitkan.
-                                                </div>
-                                            </div>
                                         </div>
                                         <p class="text-sm font-extrabold text-emerald-600">${nominalStr}</p>
                                     </div>
                                 </div>
-                                <!-- Right Column -->
                                 <div class="space-y-4">
                                     <div>
                                         <div class="flex items-center gap-1 text-slate-400 mb-1">
                                             <span>Chat Aktif</span>
-                                            <div class="relative group">
-                                                <i class="fa fa-circle-info cursor-pointer hover:text-indigo-600 transition-colors"></i>
-                                                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-40 bg-slate-900 text-white text-[9px] rounded p-2 shadow-lg z-50 text-center font-normal">
-                                                    Jumlah chat follow-up / obrolan aktif yang ditangani.
-                                                </div>
-                                            </div>
                                         </div>
                                         <p class="text-sm font-bold text-slate-800">${activeChat.toLocaleString()}</p>
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-1 text-slate-400 mb-1">
                                             <span>Total Waktu Chat</span>
-                                            <div class="relative group">
-                                                <i class="fa fa-circle-info cursor-pointer hover:text-indigo-600 transition-colors"></i>
-                                                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-40 bg-slate-900 text-white text-[9px] rounded p-2 shadow-lg z-50 text-center font-normal">
-                                                    Total akumulasi estimasi durasi obrolan chat.
-                                                </div>
-                                            </div>
                                         </div>
                                         <p class="text-xs font-bold text-slate-800 leading-tight">${estTimeStr}</p>
                                     </div>
@@ -853,7 +786,6 @@
                 });
             }
 
-            // Table Rendering
             const tableBody = document.getElementById('tableBody');
             if (tableBody) {
                 tableBody.innerHTML = "";
@@ -1030,6 +962,7 @@
                 }
             });
 
+            // --- PERBAIKAN CHART 8 (Waktu Aktif Kerja Online) ---
             const onlineHrsData = agents.map(a => onlineHoursMap[agg[a].agentId] || 0);
             updateChart('onlineHoursChart', 'bar', {
                 labels: agents,
@@ -1040,15 +973,33 @@
                     borderRadius: 6
                 }]
             }, {
+                layout: { 
+                    padding: { top: 35 } // MEMBERIKAN RUANG ATAS AGAR ANGKA TIDAK TERPOTONG
+                },
                 scales: {
-                    x: { grid: { display: false } },
-                    y: { grid: { color: '#f1f5f9', borderDash: [5, 5] }, title: { display: true, text: 'Waktu (Jam)' } }
+                    x: { 
+                        grid: { display: false } 
+                    },
+                    y: { 
+                        beginAtZero: true,
+                        grid: { color: '#f1f5f9', borderDash: [5, 5] }, 
+                        title: { display: true, text: 'Waktu (Jam)' },
+                        suggestedMax: Math.max(...onlineHrsData) * 1.2 // Menambah batas atas sumbu Y secara dinamis
+                    }
                 },
                 plugins: {
-                    datalabels: { anchor: 'end', align: 'top', color: '#475569', font: { weight: 'bold' }, formatter: (v) => v > 0 ? v + ' Jam' : '-' },
+                    legend: { display: false }, // Menyembunyikan legend untuk tampilan yang lebih bersih
+                    datalabels: { 
+                        anchor: 'end', 
+                        align: 'top', 
+                        color: '#1e293b', // Warna gelap kontras
+                        font: { weight: 'bold', size: 11 }, 
+                        formatter: (v) => v > 0 ? v + ' Jam' : '-' 
+                    },
                     tooltip: { callbacks: { label: (ctx) => `Waktu Online: ${ctx.raw} Jam` } }
                 }
             });
+            // ---------------------------------------------------
 
             updateChart('assignedCompareChart', 'doughnut', {
                 labels: agents,
@@ -1074,7 +1025,8 @@
                     legend: { position: 'bottom', labels: { font: { family: 'Inter', weight: 500 } } },
                     ...extraOptions.plugins
                 },
-                scales: extraOptions.scales || {}
+                scales: extraOptions.scales || {},
+                layout: extraOptions.layout || {}
             };
 
             const ctx = document.getElementById(id).getContext('2d');
@@ -1295,7 +1247,6 @@
                 else if (status.includes('expired') || status.includes('kadaluarsa') || status.includes('kedaluwarsa')) r.inv_expired++;
             });
 
-            // Menyambungkan / melengkapi baris kode yang terpotong di akhir
             const parsedRaw = Object.values(chatMap).map(r => ({
                 date: r.date,
                 agentId: r.agentId,
@@ -1312,7 +1263,6 @@
                 inv_expired: Math.round(r.inv_expired)
             }));
 
-            // Melakukan ekstraksi onlineHours jika agen sheet disisipkan, jika tidak gunakan data lama
             const parsedOnlineHours = { ...onlineHoursMap };
             agentRows.forEach(row => {
                  const agentId = getStr(row, ['Agent', 'Email', 'CS', 'agen', 'email'], '').toLowerCase();
@@ -1322,7 +1272,7 @@
             });
 
             return { rawData: parsedRaw, onlineHoursMap: parsedOnlineHours };
-        } // End parseWorkbook
+        }
 
         // ============================================================
         // UI HELPERS (PROGRESS & TOAST)
@@ -1360,5 +1310,6 @@
         }
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2"></script>
 </body>
 </html>
